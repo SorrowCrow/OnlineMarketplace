@@ -5,7 +5,6 @@ listing location - enum? ArrayList? should be possible to have several entries
 include delivery type? connect to delivery/mailbox services?
 link to userID or User? (itemID or Item?)
 
-anybody used Lombok?
 anybody used Statemachine?
  */
 
@@ -13,6 +12,8 @@ anybody used Statemachine?
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
 import java.time.LocalDateTime;
+import lombok.Getter;
+import lombok.Setter;
 
 public enum ListingType {
     SELL, BUY, FOR_RENT, TO_RENT; //assuming also listings for searching items
@@ -32,27 +33,42 @@ public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+
+    @Getter
     private long listingID;
 
+    @Getter @Setter
     private ListingType type;
 
+    @Getter @Setter
     private double price;
 
+    @Getter @Setter
     private PriceUnit priceUnit;
 
+    @Getter @Setter
     private ArrayList<Location> location;
 
-    @Column(name = "startDate");
+    @Getter @Setter
+    private String description;
 
+    @Getter
+    @Column(name = "startDate");
+    private LocalDate startDate;
+
+    @Getter @Setter
     @Column(name = "endDate")
     private LocalDate endDate; //TODO: predefined listing time - x days/weeks from UI?
 
+    @Getter @Setter
     private boolean isActive; //possibility to pause a listing (reserve item)
 
+    @Getter
     @ManyToOne
     @JoinColumn(name = "user_id")
     private long userID;
 
+    @Getter
     @OneToOne
     @JoinColumn(name = "item_id")
     private long itemID; //TODO: each item has a separate listing or allow several items per listing?
@@ -63,72 +79,5 @@ public class Listing {
         this.isActive = true;
     }
 
-    //GETTERS for all fields
-
-    public long getListingID() {
-        return listingID;
-    }
-
-    public ListingType getListingType() {
-        return type;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public PriceUnit getPriceUnit() {
-        return priceUnit;
-    }
-
-    public Location getLocation() {
-        return location;
-    }
-
-    public LocalDate getStartDate() {
-        return startDate;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public long getUserID() {
-        return userID;
-    }
-
-    public long getItemID() {
-        return itemID;
-    }
-
-    //SETTERS for type, price, priceUnit, location, endDate, isActive
-
-    public void setType(ListingType type) {
-        this.type = type;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setPriceUnit(PriceUnit priceUnit) {
-        this.priceUnit = priceUnit;
-    }
-
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
-    public void setEndDate(LocalDate endDate) {
-        this.endDate = endDate;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
 }
 
