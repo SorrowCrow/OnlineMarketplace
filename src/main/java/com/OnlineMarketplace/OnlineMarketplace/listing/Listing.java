@@ -3,12 +3,14 @@ package com.OnlineMarketplace.OnlineMarketplace.listing;
 import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 
 @Getter
 @Entity
+@AllArgsConstructor
 public class Listing {
 
     @Id
@@ -17,27 +19,36 @@ public class Listing {
     private long listingID;
 
     @Setter
+    @Enumerated(EnumType.STRING)
     private ListingType type;
+
+    @Setter
+    @Column(nullable = false)
+    private String itemName;
+
+    @Setter
+    private String description;
 
     @Setter
     private double price;
 
     @Setter
-    private PriceUnit priceUnit;
+    @Enumerated(EnumType.STRING)
+    private PriceUnit unit;
 
     @Setter
+    @Enumerated(EnumType.STRING)
     private Location location; //ArrayList to hold several Locations?
-
-    @Setter
-    private String description;
 
     private LocalDateTime startDate;
 
     @Setter
     private LocalDateTime endDate;
 
+/*
     @Setter
-    private boolean isActive = true;
+    private boolean isActive;
+*/
 
 /*
     @ManyToOne
@@ -49,14 +60,12 @@ public class Listing {
     private long itemID;
 */
 
-//    private String user;
-
-    @Setter
-    private String itemName;
+    private String user;
 
     public Listing() {
         this.startDate = LocalDateTime.now();
         this.endDate = startDate.plusMonths(1);
+//        this.isActive = true;
     }
 
 }
