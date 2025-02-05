@@ -9,7 +9,7 @@ public class ListingService {
     private ListingRepository list;
 
     public List<Listing> getAllListings() {
-        return listingRepository.findAll();
+        return listingRepository.findAll().orElse(null);
     }
 
     public Listing getListingById(Long id) {
@@ -25,10 +25,5 @@ public class ListingService {
     public void deleteListing(Long id) {
         listingRepository.deleteById(id);
     }
-
-    public Listing searchByTitle(String title) {
-        list = listingRepository.
-    }
-
 
 }

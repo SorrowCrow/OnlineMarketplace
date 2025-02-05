@@ -1,82 +1,63 @@
 /*
-one item per listing?
 listings also for searching items?
-listing location - enum? ArrayList? should be possible to have several entries
-include delivery type? connect to delivery/mailbox services?
+listing location - several entries should be possible
 link to userID or User? (itemID or Item?)
-
-anybody used Statemachine?
  */
 
 
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-public enum ListingType {
-    SELL, BUY, FOR_RENT, TO_RENT; //assuming also listings for searching items
-}
 
-public enum PriceUnit {
-    PIECE, HOUR, DAY, WEEK, MONTH;
-}
-
-public enum Location {
-    RIGA, VILNIUS, ANY; //TODO: need a separate Location entity?
-}
-
+@Getter
 @Entity
 public class Listing {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-
-    @Getter
     private long listingID;
 
-    @Getter @Setter
+    @Setter
     private ListingType type;
 
-    @Getter @Setter
+    @Setter
     private double price;
 
-    @Getter @Setter
+    @Setter
     private PriceUnit priceUnit;
 
-    @Getter @Setter
-    private ArrayList<Location> location;
+    @Setter
+    private Location location; //ArrayList to hold several Locations?
 
-    @Getter @Setter
+    @Setter
     private String description;
 
-    @Getter
-    @Column(name = "startDate");
-    private LocalDate startDate;
+    private LocalDateTime startDate;
 
-    @Getter @Setter
-    @Column(name = "endDate")
-    private LocalDate endDate; //TODO: predefined listing time - x days/weeks from UI?
+    @Setter
+    private LocalDateTime endDate;
 
-    @Getter @Setter
-    private boolean isActive; //possibility to pause a listing (reserve item)
+    @Setter
+    private boolean isActive = true; //possibility to pause a listing (reserve item)
 
-    @Getter
     @ManyToOne
     @JoinColumn(name = "user_id")
     private long userID;
 
-    @Getter
     @OneToOne
     @JoinColumn(name = "item_id")
-    private long itemID; //TODO: each item has a separate listing or allow several items per listing?
+    private long itemID;
 
-    //TODO: other overloaded constructors needed?
     public Listing() {
         this.startDate = LocalDateTime.now();
-        this.isActive = true;
+        this.endDate = startDate.plusMonths(1);
     }
 
 }
