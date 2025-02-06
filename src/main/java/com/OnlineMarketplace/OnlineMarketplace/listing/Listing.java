@@ -1,51 +1,43 @@
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
+import jakarta.persistence.*;
+import lombok.*;
+
 import java.time.LocalDateTime;
 
-import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-
-
-@Getter
+@Data
 @Entity
-@AllArgsConstructor
+@Table(name="listing")
 public class Listing {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private long listingID;
 
-    @Setter
     @Enumerated(EnumType.STRING)
     private ListingType type;
 
-    @Setter
+
     @Column(nullable = false)
     private String itemName;
 
-    @Setter
     private String description;
 
-    @Setter
     private double price;
 
-    @Setter
     @Enumerated(EnumType.STRING)
     private PriceUnit unit;
 
-    @Setter
+    private String user;
+
     @Enumerated(EnumType.STRING)
     private Location location; //ArrayList to hold several Locations?
 
-    private LocalDateTime startDate;
+    private LocalDateTime startDate = LocalDateTime.now();
 
-    @Setter
-    private LocalDateTime endDate;
+    private LocalDateTime endDate = startDate.plusMonths(2);
 
-/*
+    /*
     @Setter
     private boolean isActive;
 */
@@ -59,14 +51,5 @@ public class Listing {
     @JoinColumn(name = "item_id")
     private long itemID;
 */
-
-    private String user;
-
-    public Listing() {
-        this.startDate = LocalDateTime.now();
-        this.endDate = startDate.plusMonths(1);
-//        this.isActive = true;
-    }
-
 }
 
