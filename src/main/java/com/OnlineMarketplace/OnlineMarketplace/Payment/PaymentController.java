@@ -1,44 +1,38 @@
 package com.OnlineMarketplace.OnlineMarketplace.Payment;
 
+import com.stripe.Stripe;
 import com.stripe.exception.StripeException;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.stripe.model.Charge;
+import com.stripe.model.PaymentIntent;
+import com.stripe.model.Token;
+import com.stripe.param.PaymentIntentCreateParams;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/payments")
 public class PaymentController {
+    @Value("${stripe.api.key}")
+    private String stripeApiKey;
 
-    @Autowired
-    private PaymentService paymentService;
-
-    @PostMapping("/create-session")
-    public String createPaymentSession(@RequestParam String userEmail, @RequestParam Long listingId) {
+    @PostMapping("/create-payment")
+    // will need to be updated when the frontend comes out !!!
+    public ResponseEntity<?> createPaymentIntent(@RequestParam Double amount) {
+        Stripe.apiKey = stripeApiKey;
         try {
-            return paymentService.createPaymentSession(userEmail,listingId);
-        } catch (StripeException e) {
-            e.printStackTrace();
-            return "Error when creating a payment session: " + e.getMessage();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return "Error: " + e.getMessage();
+            PaymentIntent intent = PaymentIntent.create(PaymentIntentCreateParams.builder()
+                    .setAmount(Math.round(amount * 100))
+                    .setCurrency("eur")
+                    .build());
+            return ResponseEntity.ok(intent.getClientSecret());
+        } catch (StripeException e){
+            return ResponseEntity.status(500).body("Error when creating a payment: " + e.getMessage());
         }
     }
-    @GetMapping("/success")
-    public String paymentSuccess(@RequestParam("session_id") String sessionId) {
-        try {
-            return paymentService.paymentSuccess(sessionId);
-        } catch (StripeException e) {
-            return "Payment processing error: " + e.getMessage();
-        }
-    }
-    @GetMapping("/failure")
-    public String paymentFailure() {
-        return paymentService.paymentFailure();
-    }
-
-
 
     }
 
