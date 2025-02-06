@@ -1,4 +1,4 @@
-package com.OnlineMarketplace.OnlineMarketplace.entities;
+package com.OnlineMarketplace.OnlineMarketplace.Review;
 
 import jakarta.persistence.*;
 import lombok.Data;

@@ -1,9 +1,6 @@
-package com.OnlineMarketplace.OnlineMarketplace.controllers;
+package com.OnlineMarketplace.OnlineMarketplace.Review;
 
-import com.OnlineMarketplace.OnlineMarketplace.entities.Review;
-import com.OnlineMarketplace.OnlineMarketplace.services.ReviewService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
