@@ -1,46 +1,34 @@
 package com.OnlineMarketplace.OnlineMarketplace.User;
 
+import com.OnlineMarketplace.OnlineMarketplace.Role.Role;
 import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String userName;
     private String userSurname;
     private String email;
+    private String password;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<Role> roles = new HashSet<>();
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public void setUserSurname(String userSurname) {
-        this.userSurname = userSurname;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public String getUserSurname() {
-        return userSurname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
 }
