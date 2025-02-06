@@ -1,61 +1,83 @@
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
-@RequestMapping("/listing")
+@RequestMapping("/api/listings")
 public class ListingController {
 
     @Autowired
     private ListingService listingService;
 
-    @PostMapping("/add")
-    public Listing createListing(@RequestBody Listing listing) { //should use ListingCreateDTO
+//todo: use ListingCreateDTO
+/*
+    @PostMapping
+    public Listing createListing(@RequestBody Listing listing) {
         return listingService.createListing(listing);
     }
+*/
 
-    @GetMapping("/search/results")
+    @GetMapping
     public List<Listing> getAllListings() {
         return listingService.getAllListings();
     }
 
-    @GetMapping("/search/results")
-    public List<Listing> getListingByType(ListingType type) {
+
+    @GetMapping("/type")
+    public List<Listing> getListingByType(@RequestParam ListingType type) {
         return listingService.findByType(type);
     }
 
-    @GetMapping("/search/results")
-    public List<Listing> getListingByPriceBetween(double minPrice, double maxPrice) {
+    @GetMapping("/price")
+    public List<Listing> getListingByPriceBetween(
+            @RequestParam(
+                    value = "minPrice",
+                    required = false,
+                    defaultValue = "0.0") double minPrice,
+            @RequestParam(
+                    value = "minPrice",
+                    required = false,
+                    defaultValue = "1000000") double maxPrice) {
         return listingService.findByPriceBetween(minPrice, maxPrice);
     }
 
-    @GetMapping("/search/results")
-    public List<Listing> getListingByStartDateBetween(LocalDateTime minStartDate, LocalDateTime maxStartDate) {
+//todo: formatting for LocalDateTime
+/*
+    @GetMapping
+    public List<Listing> getListingByStartDateBetween(
+            @RequestParam LocalDateTime minStartDate,
+            @RequestParam LocalDateTime maxStartDate) {
         return listingService.findByStartDateBetween(minStartDate, maxStartDate);
     }
+*/
 
-    @GetMapping("/search/results")
-    public List<Listing> getListingByLocation(Location location) {
+    @GetMapping("/location")
+    public List<Listing> getListingByLocation(@RequestParam Location location) {
         return listingService.findByLocation(location);
     }
 
     @GetMapping("/{id}")
-    public Listing getListingById(long id) {
+    public Listing getListingById(@PathVariable long id) {
         return listingService.getListingById(id);
     }
-    /*
+
+//todo: use ListingUpdateDTO
+/*
     @PatchMapping
     public Listing updateListingPrice(@RequestParam double price) {
     }
 */
 
-    @DeleteMapping
-    public void deleteListing(long listingID) {
-        listingService.deleteListing(listingID);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteListing(@PathVariable Long id) {
+        listingService.deleteListing(id);
+        return ResponseEntity.noContent().build();
     }
+
 
 }
