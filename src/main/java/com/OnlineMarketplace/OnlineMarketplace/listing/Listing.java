@@ -49,7 +49,7 @@ public class Listing {
     private long itemID;
 */
 
-    private String user;
+//    private String user;
 
     @Setter
     private String itemName;
