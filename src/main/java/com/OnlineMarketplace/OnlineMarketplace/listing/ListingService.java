@@ -2,6 +2,8 @@ package com.OnlineMarketplace.OnlineMarketplace.listing;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -9,7 +11,6 @@ import java.util.List;
 public class ListingService {
     @Autowired
     private ListingRepository listingRepository;
-    private ListingRepository list;
 
     public List<Listing> getAllListings() {
         return listingRepository.findAll();
@@ -23,6 +24,10 @@ public class ListingService {
         return listingRepository.findByPriceBetween(minPrice, maxPrice);
     }
 
+    public List<Listing> findByStartDateBetween(LocalDateTime minStartDate, LocalDateTime maxStartDate) {
+        return listingRepository.findByStartDateBetween(minStartDate, maxStartDate);
+    }
+
     public List<Listing> findByLocation(Location location) {
         return listingRepository.findByLocation(location);
     }
@@ -31,14 +36,15 @@ public class ListingService {
         return listingRepository.findById(id).orElse(null);
     }
 
+//    public List<Listing> searchByDescriptionKeyword(@Param("keyword") String keyword);
+
     public Listing createListing(Listing listing) {
         return listingRepository.save(listing);
     }
 
 //todo: learn how to PATCH with DTO
 /*
-    public Listing updateListing(Listing listing) {
-        return listingRepository.save(listing);
+    public Listing updateListing(long id, ListingUpdateDTO listingUpdateDTO) {
     }
 */
 
