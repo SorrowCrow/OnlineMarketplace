@@ -1,5 +1,6 @@
 package com.OnlineMarketplace.OnlineMarketplace.User.Service;
 
+import com.OnlineMarketplace.OnlineMarketplace.Auth.SignUpRequestDTO;
 import com.OnlineMarketplace.OnlineMarketplace.Role.ERole;
 import com.OnlineMarketplace.OnlineMarketplace.Role.Role;
 import com.OnlineMarketplace.OnlineMarketplace.Role.RoleRepository;
@@ -20,7 +21,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService implements UserDetailsService {
+public class UserService {
 
     @Autowired
     private UserRepository userRepository;
@@ -31,6 +32,31 @@ public class UserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    public void deleteByUsername(String username) {
+        userRepository.deleteByEmail(username);
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public boolean existsByEmail(String email) {
+        return userRepository.existsByEmail(email);
+    }
+
+    public User createUser(SignUpRequestDTO request) {
+        User user = new User(request.getEmail(), request.getName(), request.getSurname(), request.getPassword());
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        Set<Role> roles = new HashSet<>();
+        Role role = roleRepository.findByName(ERole.ROLE_USER)
+                .orElseThrow(() -> new RuntimeException("Role not found"));
+        roles.add(role);
+        user.setRoles(roles);
+
+        return userRepository.save(user);
+    }
 
     public User createUser(User user, Set<String> roleNames) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -60,11 +86,11 @@ public class UserService implements UserDetailsService {
         Optional<User> existingUserOptional = userRepository.findById(id);
         if (existingUserOptional.isPresent()) {
             User existingUser = existingUserOptional.get();
-            if (user.getUserName() != null) {
-                existingUser.setUserName(user.getUserName());
+            if (user.getName() != null) {
+                existingUser.setName(user.getName());
             }
-            if (user.getUserSurname() != null) {
-                existingUser.setUserSurname(user.getUserSurname());
+            if (user.getSurname() != null) {
+                existingUser.setSurname(user.getSurname());
             }
             if (user.getEmail() != null) {
                 existingUser.setEmail(user.getEmail());
@@ -85,24 +111,5 @@ public class UserService implements UserDetailsService {
             return true;
         }
         return false;
-    }
-
-
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> userOptional = userRepository.findByEmail(email);
-        if (userOptional.isEmpty()) {
-            throw new UsernameNotFoundException("User not found with email: " + email);
-        }
-
-        User user = userOptional.get();
-
-        return org.springframework.security.core.userdetails.User.builder()
-                .username(user.getEmail())
-                .password(user.getPassword())
-                .authorities(user.getRoles().stream()
-                        .map(role -> new SimpleGrantedAuthority(role.getName().name()))
-                        .collect(Collectors.toList()))
-                .build();
     }
 }

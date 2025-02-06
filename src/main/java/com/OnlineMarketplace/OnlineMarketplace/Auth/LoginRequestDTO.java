@@ -1,12 +1,11 @@
 package com.OnlineMarketplace.OnlineMarketplace.Auth;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
-public class JwtResponse {
-    private String token;
+public class LoginRequestDTO {
+    private String email;
+    private String password;
 }
