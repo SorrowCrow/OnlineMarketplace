@@ -1,9 +1,6 @@
-package com.OnlineMarketplace.OnlineMarketplace.services;
+package com.OnlineMarketplace.OnlineMarketplace.Review;
 
-import com.OnlineMarketplace.OnlineMarketplace.entities.Review;
-import com.OnlineMarketplace.OnlineMarketplace.repositories.ReviewRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
