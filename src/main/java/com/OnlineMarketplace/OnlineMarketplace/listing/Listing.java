@@ -1,14 +1,6 @@
-/*
-listings also for searching items?
-listing location - several entries should be possible
-link to userID or User? (itemID or Item?)
- */
-
-
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -45,8 +37,9 @@ public class Listing {
     private LocalDateTime endDate;
 
     @Setter
-    private boolean isActive = true; //possibility to pause a listing (reserve item)
+    private boolean isActive = true;
 
+/*
     @ManyToOne
     @JoinColumn(name = "user_id")
     private long userID;
@@ -54,6 +47,12 @@ public class Listing {
     @OneToOne
     @JoinColumn(name = "item_id")
     private long itemID;
+*/
+
+    private String user;
+
+    @Setter
+    private String itemName;
 
     public Listing() {
         this.startDate = LocalDateTime.now();

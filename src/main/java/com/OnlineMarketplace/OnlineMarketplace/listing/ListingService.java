@@ -1,6 +1,9 @@
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
-import org.springframework.data.jpa.service.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import java.util.List;
+
 
 @Service
 public class ListingService {
@@ -9,7 +12,7 @@ public class ListingService {
     private ListingRepository list;
 
     public List<Listing> getAllListings() {
-        return listingRepository.findAll().orElse(null);
+        return listingRepository.findAll();
     }
 
     public Listing getListingById(Long id) {

@@ -6,11 +6,12 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
+import lombok.*;
 
 @Repository
 public interface ListingRepository extends JpaRepository<Listing, Long> {
 
-    List<Listing> findAll();
+//    List<Listing> findAll();
     List<Listing> findByType(ListingType type);
     List<Listing> findByPriceBetween(double minPrice, double maxPrice);
     List<Listing> findByLocation(Location location);
