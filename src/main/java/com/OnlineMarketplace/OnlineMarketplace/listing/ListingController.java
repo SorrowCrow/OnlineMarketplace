@@ -1,5 +1,7 @@
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
+import com.OnlineMarketplace.OnlineMarketplace.category.Category;
+import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingUpdateDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,8 +25,6 @@ public class ListingController {
         return listingService.createListing(listing);
     }
 */
-
-
 
     @GetMapping
     public List<Listing> getAllListings() {
@@ -66,16 +66,21 @@ public class ListingController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Listing> getListingById(@PathVariable long id) {
-        return listingService.getListingById(id);
+    public ResponseEntity<Listing> getListingById(@PathVariable Long id) {
+        Optional<Listing> listing = listingService.getListingById(id);
+        return listing.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-//todo: use ListingUpdateDTO
-/*
-    @PatchMapping
-    public Listing updateListingPrice(@RequestParam double price) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<Listing> updateListing(@PathVariable Long id, @RequestParam Listing listingDetails) {
+        try {
+            Listing updatedListing = listingService.updateListing(id, listingDetails);
+            return ResponseEntity.ok(updatedListing);
+        } catch (RuntimeException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
-*/
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteListing(@PathVariable Long id) {

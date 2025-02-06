@@ -1,5 +1,8 @@
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
+import com.OnlineMarketplace.OnlineMarketplace.category.Category;
+import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingUpdateDTO;
+import jakarta.persistence.EntityNotFoundException;
 import com.OnlineMarketplace.OnlineMarketplace.Cart.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +55,19 @@ public class ListingService {
     public Listing updateListing(long id, ListingUpdateDTO listingUpdateDTO) {
     }
 */
+public Listing updateListing(Long id, Listing listingDetails) {
+    return listingRepository.findById(id)
+            .map(listing -> {
+                listing.setType(listingDetails.getType());
+                listing.setItemName(listingDetails.getItemName());
+                listing.setDescription(listingDetails.getDescription());
+                listing.setPrice(listingDetails.getPrice());
+                listing.setUnit(listingDetails.getUnit());
+                listing.setLocation(listingDetails.getLocation());
+                listing.setEndDate(listingDetails.getEndDate());
+                return listingRepository.save(listing);
+            }).orElseThrow(() -> new RuntimeException("Listing not found"));
+}
 
     public void deleteListing(Long id) {
         Optional<Listing> optionalListing = getListingById(id);
