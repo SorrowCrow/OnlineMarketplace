@@ -1,4 +1,4 @@
-package com.OnlineMarketplace.OnlineMarketplace.User.Model;
+package com.OnlineMarketplace.OnlineMarketplace.User;
 
 import jakarta.persistence.*;
 
