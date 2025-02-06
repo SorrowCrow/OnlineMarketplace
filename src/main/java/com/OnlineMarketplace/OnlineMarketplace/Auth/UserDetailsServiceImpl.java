@@ -1,7 +1,7 @@
 package com.OnlineMarketplace.OnlineMarketplace.Auth;
 
-import com.OnlineMarketplace.OnlineMarketplace.User.Model.User;
-import com.OnlineMarketplace.OnlineMarketplace.User.Repository.UserRepository;
+import com.OnlineMarketplace.OnlineMarketplace.User.User;
+import com.OnlineMarketplace.OnlineMarketplace.User.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

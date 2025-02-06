@@ -1,7 +1,5 @@
-package com.OnlineMarketplace.OnlineMarketplace.User.Controller;
+package com.OnlineMarketplace.OnlineMarketplace.User;
 
-import com.OnlineMarketplace.OnlineMarketplace.User.Model.User;
-import com.OnlineMarketplace.OnlineMarketplace.User.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;

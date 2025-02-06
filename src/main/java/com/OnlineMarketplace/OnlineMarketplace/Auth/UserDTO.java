@@ -1,6 +1,6 @@
 package com.OnlineMarketplace.OnlineMarketplace.Auth;
 
-import com.OnlineMarketplace.OnlineMarketplace.User.Model.User;
+import com.OnlineMarketplace.OnlineMarketplace.User.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;

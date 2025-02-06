@@ -2,8 +2,8 @@ package com.OnlineMarketplace.OnlineMarketplace.Auth;
 
 import com.OnlineMarketplace.OnlineMarketplace.Role.RoleService;
 import com.OnlineMarketplace.OnlineMarketplace.Security.JwtUtils;
-import com.OnlineMarketplace.OnlineMarketplace.User.Model.User;
-import com.OnlineMarketplace.OnlineMarketplace.User.Service.UserService;
+import com.OnlineMarketplace.OnlineMarketplace.User.User;
+import com.OnlineMarketplace.OnlineMarketplace.User.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
