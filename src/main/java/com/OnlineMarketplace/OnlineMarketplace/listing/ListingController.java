@@ -1,8 +1,13 @@
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
+import com.OnlineMarketplace.OnlineMarketplace.User.Model.User;
 import com.OnlineMarketplace.OnlineMarketplace.category.Category;
+import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingCreateDTO;
 import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingUpdateDTO;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -19,18 +24,26 @@ public class ListingController {
     private ListingService listingService;
 
 //todo: use ListingCreateDTO
-/*
+
     @PostMapping
-    public Listing createListing(@RequestBody Listing listing) {
-        return listingService.createListing(listing);
+    public ResponseEntity<Listing> createListing(@Valid @RequestBody ListingCreateDTO listingCreateDTO) {
+        try {
+            Listing createdListing = listingService.createListing(listingCreateDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdListing); // 201 Created
+        } catch (EntityNotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 Not Found
+        }
     }
-*/
 
     @GetMapping
     public List<Listing> getAllListings() {
         return listingService.getAllListings();
     }
 
+    @GetMapping("/{userID}")
+    public List<Listing> getListingsByUserId(@PathVariable Long userID) {
+        return listingService.findByUserId(userID);
+    }
 
     @GetMapping("/type")
     public List<Listing> getListingByType(@RequestParam ListingType type) {
@@ -38,13 +51,13 @@ public class ListingController {
     }
 
     @GetMapping("/price")
-    public List<Listing> getListingByPriceBetween(
+    public List<Listing> getListingByPriceBetween( //NOT WORKING!!
             @RequestParam(
                     value = "minPrice",
                     required = false,
                     defaultValue = "0.0") double minPrice,
             @RequestParam(
-                    value = "minPrice",
+                    value = "maxPrice",
                     required = false,
                     defaultValue = "1000000") double maxPrice) {
         return listingService.findByPriceBetween(minPrice, maxPrice);
@@ -83,7 +96,7 @@ public class ListingController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteListing(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteListing(@PathVariable Long id) {  //204
         listingService.deleteListing(id);
         return ResponseEntity.noContent().build();
     }
