@@ -18,8 +18,8 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-    private String surname;
+    private String userName;
+    private String userSurname;
     private String email;
     private String password;
 
@@ -31,10 +31,4 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    public User(String email,String name, String surname, String password) {
-        this.email = email;
-        this.name = name;
-        this.surname = surname;
-        this.password = password;
-    }
 }
