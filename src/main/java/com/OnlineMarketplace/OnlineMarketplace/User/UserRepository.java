@@ -1,6 +1,5 @@
-package com.OnlineMarketplace.OnlineMarketplace.User.Repository;
+package com.OnlineMarketplace.OnlineMarketplace.User;
 
-import com.OnlineMarketplace.OnlineMarketplace.User.Model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

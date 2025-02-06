@@ -1,7 +1,5 @@
-package com.OnlineMarketplace.OnlineMarketplace.User.Service;
+package com.OnlineMarketplace.OnlineMarketplace.User;
 
-import com.OnlineMarketplace.OnlineMarketplace.User.Model.User;
-import com.OnlineMarketplace.OnlineMarketplace.User.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
