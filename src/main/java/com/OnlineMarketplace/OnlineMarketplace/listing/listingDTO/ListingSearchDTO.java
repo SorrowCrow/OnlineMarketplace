@@ -26,5 +26,5 @@ public class ListingSearchDTO {
     private LocalDateTime minStartDate;
     private LocalDateTime maxStartDate;
     private LocalDateTime endDate;
-
+//this is a test//
 }
