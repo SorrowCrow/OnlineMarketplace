@@ -10,6 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -34,6 +36,9 @@ public class ListingCreateDTO {
 
     @NotNull (message = "Location must be provided")
     private Location location;
+
+    @NotNull (message = "Must provide end date")
+    private LocalDateTime endDate;
 
     @NotNull
     private Long userID;

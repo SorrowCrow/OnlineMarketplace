@@ -86,15 +86,15 @@ public class ListingController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Listing> updateListing(@PathVariable Long id, @RequestParam Listing listingDetails) {
+    public ResponseEntity<Listing> updateListing(@PathVariable Long id, @RequestParam ListingUpdateDTO listingUpdateDTO) {
         try {
-            Listing updatedListing = listingService.updateListing(id, listingDetails);
+            Listing updatedListing = listingService.updateListing(id, listingUpdateDTO);
             return ResponseEntity.ok(updatedListing);
         } catch (RuntimeException e) {
             return ResponseEntity.notFound().build();
         }
     }
-
+//ok//
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteListing(@PathVariable Long id) {  //204
         listingService.deleteListing(id);

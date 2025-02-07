@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -30,7 +31,7 @@ public class Listing {
     private ListingType type;
 
     @Column(nullable = false)
-    private String itemName = "default name";
+    private String title;
 
     private String description="default description";
 
@@ -44,9 +45,26 @@ public class Listing {
     @Enumerated(EnumType.STRING)
     private Location location; //ArrayList to hold several Locations?
 
-    private LocalDateTime startDate = LocalDateTime.now();
+    @CreationTimestamp
+    @Column(name = "start_date", updatable = false)
+    private LocalDateTime startDate;
 
     private LocalDateTime endDate = startDate.plusMonths(2);
+
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private long userID;
+//    private User user;
+//
+//    @ManyToOne
+//    @JoinColumn(name = "category_id")
+//    private Category category;
+//
+//    public Listing() {
+//        this.startDate = LocalDateTime.now();
+//        this.endDate = startDate.plusMonths(1);
+//    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
