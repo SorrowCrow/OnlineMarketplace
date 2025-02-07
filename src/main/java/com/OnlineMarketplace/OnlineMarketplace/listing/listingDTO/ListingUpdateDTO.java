@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @Builder
 @Getter @Setter
 public class ListingUpdateDTO {
+
     private ListingType type;
 
     @Size(min = 2, max = 20, message = "Title must be between 2  and 20 characters long")

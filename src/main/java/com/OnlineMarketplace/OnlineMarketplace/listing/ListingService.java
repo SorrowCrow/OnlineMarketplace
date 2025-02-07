@@ -4,6 +4,7 @@ import com.OnlineMarketplace.OnlineMarketplace.User.UserRepository;
 import com.OnlineMarketplace.OnlineMarketplace.category.Category;
 import com.OnlineMarketplace.OnlineMarketplace.category.CategoryRepository;
 import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingCreateDTO;
+import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingSearchDTO;
 import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingUpdateDTO;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.EntityNotFoundException;
@@ -44,9 +45,11 @@ public class ListingService {
         return listingRepository.findByPriceBetween(minPrice, maxPrice);
     }
 
+/*
     public List<Listing> findByStartDateBetween(LocalDateTime minStartDate, LocalDateTime maxStartDate) {
         return listingRepository.findByStartDateBetween(minStartDate, maxStartDate);
     }
+*/
 
     public List<Listing> findByLocation(Location location) {
         return listingRepository.findByLocation(location);
@@ -58,44 +61,30 @@ public class ListingService {
 
 //    public List<Listing> searchByDescriptionKeyword(@Param("keyword") String keyword);
 
-/*
+//    public List<Listing> searchListingsMultiParam(ListingSearchDTO listingSearchDTO){}
+
     public Listing createListing(ListingCreateDTO listingCreateDTO) {
         Listing listing = new Listing();
 
         listing.setType(listingCreateDTO.getType());
+        listing.setTitle(listingCreateDTO.getTitle());
         listing.setDescription(listingCreateDTO.getDescription());
         listing.setPrice(listingCreateDTO.getPrice());
         listing.setUnit(listingCreateDTO.getPriceUnit());
         listing.setLocation(listingCreateDTO.getLocation());
-        listing.setEndDate(listingCreateDTO.getEndDate());
+        listing.setStartDate(LocalDateTime.now());
+        listing.setEndDate(LocalDateTime.now().plusMonths(1));
 
         User user = userRepository.findById(listingCreateDTO.getUserID())
                 .orElseThrow(() -> new EntityNotFoundException("User not found"));
+        listing.setUser(user);
 
         Category category = categoryRepository.findById(listingCreateDTO.getCategoryID())
                 .orElseThrow(() -> new EntityNotFoundException("Category not found"));
-        listing.setUser(user);
         listing.setCategory(category);
 
         return listingRepository.save(listing);
     }
-*/
-
-/*
-public Listing updateListing(Long id, Listing listingDetails) {
-    Listing listing = listingRepository.findById(id)
-            .map(listing -> {
-                listing.setType(listingDetails.getType());
-                listing.setTitle(listingDetails.getTitle());
-                listing.setDescription(listingDetails.getDescription());
-                listing.setPrice(listingDetails.getPrice());
-                listing.setUnit(listingDetails.getUnit());
-                listing.setLocation(listingDetails.getLocation());
-                listing.setEndDate(listingDetails.getEndDate());
-                return listingRepository.save(listing);
-            }).orElseThrow(() -> new RuntimeException("Listing not found"));
-}
-*/
 
     public Listing updateListing(Long id, ListingUpdateDTO listingUpdateDTO) {
         Optional<Listing> existingListing = listingRepository.findById(id);
@@ -134,6 +123,7 @@ public Listing updateListing(Long id, Listing listingDetails) {
         return listingRepository.save(listing);
 
     }
+
     public void deleteListing(Long id) {
         Optional<Listing> optionalListing = getListingById(id);
         if(optionalListing.isEmpty()){

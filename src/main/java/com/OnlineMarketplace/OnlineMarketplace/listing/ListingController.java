@@ -23,9 +23,7 @@ public class ListingController {
     @Autowired
     private ListingService listingService;
 
-//todo: use ListingCreateDTO
-
-/*
+//need to check!//
     @PostMapping
     public ResponseEntity<Listing> createListing(@Valid @RequestBody ListingCreateDTO listingCreateDTO) {
         try {
@@ -35,7 +33,6 @@ public class ListingController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 Not Found
         }
     }
-*/
 
 //ok//
     @GetMapping
@@ -68,7 +65,6 @@ public class ListingController {
         return listingService.findByPriceBetween(minPrice, maxPrice);
     }
 
-//todo: formatting for LocalDateTime
 /*
     @GetMapping
     public List<Listing> getListingByStartDateBetween(
@@ -77,6 +73,7 @@ public class ListingController {
         return listingService.findByStartDateBetween(minStartDate, maxStartDate);
     }
 */
+
 //ok//
     @GetMapping("/location")
     public List<Listing> getListingByLocation(@RequestParam Location location) {
@@ -93,7 +90,7 @@ public class ListingController {
 
 //need to check!//
     @PatchMapping("/{id}")
-    public ResponseEntity<Listing> updateListing(@PathVariable Long id, @RequestParam ListingUpdateDTO listingUpdateDTO) {
+    public ResponseEntity<Listing> updateListing(@PathVariable Long id, @Valid @RequestBody ListingUpdateDTO listingUpdateDTO) {
         try {
             Listing updatedListing = listingService.updateListing(id, listingUpdateDTO);
             return ResponseEntity.ok(updatedListing);

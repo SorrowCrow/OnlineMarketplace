@@ -1,9 +1,8 @@
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
-import com.OnlineMarketplace.OnlineMarketplace.Cart.Cart;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.CreationTimestamp;
@@ -47,8 +46,9 @@ public class Listing {
 
     @CreationTimestamp
     @Column(name = "start_date", updatable = false)
-    private LocalDateTime startDate;
+    private LocalDateTime startDate = LocalDateTime.now();
 
+    @Column(name = "end_date")
     private LocalDateTime endDate = startDate.plusMonths(2);
 
 //    @ManyToOne

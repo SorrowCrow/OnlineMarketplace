@@ -16,12 +16,14 @@ public interface ListingRepository extends JpaRepository<Listing, Long> {
 
     List<Listing> findByLocation(Location location);
 
+/*
     @Query("SELECT l FROM Listing l WHERE LOWER(l.description) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Listing> searchByDescriptionKeyword(@Param("keyword") String keyword);
+*/
 
-    List<Listing> findByStartDateBetween(LocalDateTime minStartDate, LocalDateTime maxStartDate);
+//    List<Listing> findByStartDateBetween(LocalDateTime minStartDate, LocalDateTime maxStartDate);
 
-    List<Listing> findByEndDate(LocalDateTime endDate);
+//    List<Listing> findByEndDate(LocalDateTime endDate);
 
     List<Listing> findByUserId(Long userID);
 
