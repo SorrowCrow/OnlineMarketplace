@@ -1,5 +1,6 @@
 package com.OnlineMarketplace.OnlineMarketplace.User;
 
+import com.OnlineMarketplace.OnlineMarketplace.Cart.Cart;
 import com.OnlineMarketplace.OnlineMarketplace.Role.Role;
 import jakarta.persistence.*;
 import lombok.*;
@@ -30,6 +31,10 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<Role> roles = new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn
+    private Cart cart = new Cart();
 
     public User(String email,String name, String surname, String password) {
         this.email = email;

@@ -1,6 +1,6 @@
 package com.OnlineMarketplace.OnlineMarketplace.Cart;
 
-import com.OnlineMarketplace.OnlineMarketplace.User.Model.User;
+import com.OnlineMarketplace.OnlineMarketplace.User.User;
 import com.OnlineMarketplace.OnlineMarketplace.listing.Listing;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

@@ -1,7 +1,8 @@
 package com.OnlineMarketplace.OnlineMarketplace.Cart;
 
-import com.OnlineMarketplace.OnlineMarketplace.User.Model.User;
-import com.OnlineMarketplace.OnlineMarketplace.User.Service.UserService;
+import com.OnlineMarketplace.OnlineMarketplace.Auth.SignUpRequestDTO;
+import com.OnlineMarketplace.OnlineMarketplace.User.User;
+import com.OnlineMarketplace.OnlineMarketplace.User.UserService;
 import com.OnlineMarketplace.OnlineMarketplace.listing.Listing;
 import com.OnlineMarketplace.OnlineMarketplace.listing.ListingService;
 import lombok.extern.slf4j.Slf4j;
@@ -53,15 +54,21 @@ public class CartController {
         list1.setPrice(100);
         list1.setItemName("Listing 1");
 
-        User user = new User();
+        SignUpRequestDTO request = new SignUpRequestDTO();
+
+        request.setPassword("string");
+
+        User user = userService.createUser(request);
 
         user.getCart().addListing(list1);
 
-        user = userService.createUser(user);
+        user = userService.updateUserCart(user);
 
 //        Listing fromDatabase = listingService.getListingById(user.getId());
 //        user.getCart().removeListing(fromDatabase);
-//        userService.createUser(user);
+//        user = userService.updateUserCart(user);
+
+        userService.deleteUser(user.getId());
 
         return ResponseEntity.ok(cartService.findAll());
     }
