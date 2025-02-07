@@ -75,21 +75,6 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User updateUserCart(User user){
-        Optional<User> dbUser = userRepository.findById(user.getId());
-
-        if(dbUser.isPresent()){
-            User existingUser = dbUser.get();
-
-            existingUser.setCart(user.getCart());
-
-            return userRepository.save(existingUser);
-        }
-            return null;
-
-    }
-
-
     public User updateUser(Long id, User user) {
         Optional<User> existingUserOptional = userRepository.findById(id);
         if (existingUserOptional.isPresent()) {

@@ -1,5 +1,6 @@
 package com.OnlineMarketplace.OnlineMarketplace.Payment;
 
+import com.OnlineMarketplace.OnlineMarketplace.Cart.Cart;
 import com.OnlineMarketplace.OnlineMarketplace.listing.Listing;
 import com.OnlineMarketplace.OnlineMarketplace.listing.ListingRepository;
 import com.stripe.Stripe;
@@ -13,13 +14,17 @@ import com.stripe.param.CustomerListParams;
 
 import com.stripe.param.checkout.SessionCreateParams;
 import com.stripe.param.checkout.SessionCreateParams.LineItem.PriceData;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
+@Slf4j
 @Service
 public class PaymentService {
 
@@ -31,7 +36,7 @@ public class PaymentService {
     @Autowired
     private ListingRepository listingRepository;
 
-    public String createPaymentSession(String userEmail, Long listingId) throws StripeException {
+    public String createPaymentSession(String userEmail, Set<Listing> listingList) throws StripeException {
 
         Stripe.apiKey = stripeSecretKey;
 
@@ -52,18 +57,22 @@ public class PaymentService {
             );
         }
 
-        Optional<Listing> productOptional = listingRepository.findById(listingId);
-        if (productOptional.isEmpty()) {
-            throw new IllegalArgumentException("Product with this ID was not found");
-        }
-        Listing listing = productOptional.get();
+//        Optional<Listing> productOptional = listingRepository.findById(listingId);
+//        if (productOptional.isEmpty()) {
+//            throw new IllegalArgumentException("Product with this ID was not found");
+//        }
+//        Listing listing = productOptional.get();
 
 
         SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setCustomer(customer.getId())
-                .setSuccessUrl(clientBaseURL + "/payments/success?session_id={CHECKOUT_SESSION_ID}")
-                .setCancelUrl(clientBaseURL + "/payments/failure");
+                .setSuccessUrl(clientBaseURL + "/api/payments/success?session_id={CHECKOUT_SESSION_ID}")
+//                .setSuccessUrl(clientBaseURL + "/swagger-ui/index.html#operations-tag-payment-controller")
+                .setCancelUrl(clientBaseURL + "/api/payments/failure");
+//                .setCancelUrl(clientBaseURL + "/swagger-ui/index.html#operations-tag-payment-controller");
+
+        BigDecimal finalPrice = new BigDecimal(listingList.stream().mapToDouble(Listing::getPrice).sum()*100);
 
         paramsBuilder.addLineItem(
                 SessionCreateParams.LineItem.builder()
@@ -71,11 +80,13 @@ public class PaymentService {
                         .setPriceData(
                                 SessionCreateParams.LineItem.PriceData.builder()
                                         .setCurrency("eur")
-                                        .setUnitAmountDecimal(BigDecimal.valueOf(listing.getPrice() * 100))
+                                        .setUnitAmountDecimal(finalPrice)
                                         .setProductData(
                                                 PriceData.ProductData.builder()
-                                                        .putMetadata("listing_id", String.valueOf(listing.getListingID()))
-                                                        .setName(listing.getItemName())
+//                                                        .putMetadata("listing_id", String.valueOf(listing.getListingID()))
+//                                                        .setName(listing.getItemName())
+                                                        .putMetadata("listing_id", "test")
+                                                        .setName("test")
                                                         .build()
                                         )
                                         .build()

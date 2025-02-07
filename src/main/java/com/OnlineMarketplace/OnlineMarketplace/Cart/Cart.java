@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -21,23 +19,31 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL, mappedBy = "cart")
-    @JsonIgnore
-    private User user;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-    @Column(name = "listing_id")
+//    @JoinTable
+    @OneToMany
+//    @ManyToMany(fetch = FetchType.LAZY
+//            ,
+//            cascade = {
+////            CascadeType.ALL
+////                    CascadeType.PERSIST,
+////                    CascadeType.MERGE
+//                    CascadeType.DETACH
+//            })
+//    @JoinTable(name = "cart_listings",
+//            joinColumns = {@JoinColumn(name = "cart_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "listing_id")})
+//    @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Listing> listings = new HashSet<>();
 
-    public void addListing(Listing listing){
+    public void addListing(Listing listing) {
         listings.add(listing);
     }
 
-    public void removeListing(Listing listing){
-        listings.removeIf(i-> i.getListingID()== listing.getListingID());
+    public void removeListing(Listing listing) {
+        listings.removeIf(i -> i.getListingID() == listing.getListingID());
     }
 
-    public void clearListings(){
+    public void clearListings() {
         listings.clear();
     }
 

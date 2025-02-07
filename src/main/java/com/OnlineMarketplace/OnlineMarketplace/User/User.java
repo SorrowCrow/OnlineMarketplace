@@ -33,7 +33,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn
+    @PrimaryKeyJoinColumn
     private Cart cart = new Cart();
 
     public User(String email,String name, String surname, String password) {

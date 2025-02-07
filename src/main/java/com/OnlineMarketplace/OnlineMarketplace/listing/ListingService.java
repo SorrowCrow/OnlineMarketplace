@@ -1,16 +1,21 @@
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
+import com.OnlineMarketplace.OnlineMarketplace.Cart.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
 public class ListingService {
     @Autowired
     private ListingRepository listingRepository;
+
+    @Autowired
+    private CartService cartService;
 
     public List<Listing> getAllListings() {
         return listingRepository.findAll();
@@ -32,8 +37,8 @@ public class ListingService {
         return listingRepository.findByLocation(location);
     }
 
-    public Listing getListingById(Long id) {
-        return listingRepository.findById(id).orElse(null);
+    public Optional<Listing> getListingById(Long id) {
+        return listingRepository.findById(id);
     }
 
 //    public List<Listing> searchByDescriptionKeyword(@Param("keyword") String keyword);
@@ -49,6 +54,11 @@ public class ListingService {
 */
 
     public void deleteListing(Long id) {
+        Optional<Listing> optionalListing = getListingById(id);
+        if(optionalListing.isEmpty()){
+            return;
+        }
+        cartService.deleteListingFromCarts(optionalListing.get());
         listingRepository.deleteById(id);
     }
 
