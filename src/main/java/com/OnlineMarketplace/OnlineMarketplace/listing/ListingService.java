@@ -58,6 +58,7 @@ public class ListingService {
 
 //    public List<Listing> searchByDescriptionKeyword(@Param("keyword") String keyword);
 
+/*
     public Listing createListing(ListingCreateDTO listingCreateDTO) {
         Listing listing = new Listing();
 
@@ -78,6 +79,7 @@ public class ListingService {
 
         return listingRepository.save(listing);
     }
+*/
 
 /*
 public Listing updateListing(Long id, Listing listingDetails) {

@@ -25,6 +25,7 @@ public class ListingController {
 
 //todo: use ListingCreateDTO
 
+/*
     @PostMapping
     public ResponseEntity<Listing> createListing(@Valid @RequestBody ListingCreateDTO listingCreateDTO) {
         try {
@@ -34,22 +35,27 @@ public class ListingController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build(); // 404 Not Found
         }
     }
+*/
 
+//ok//
     @GetMapping
     public List<Listing> getAllListings() {
         return listingService.getAllListings();
     }
 
-    @GetMapping("/{userID}")
+//need to check!//
+    @GetMapping("/user/{userID}")
     public List<Listing> getListingsByUserId(@PathVariable Long userID) {
         return listingService.findByUserId(userID);
     }
 
+//ok//
     @GetMapping("/type")
     public List<Listing> getListingByType(@RequestParam ListingType type) {
         return listingService.findByType(type);
     }
 
+//ok//
     @GetMapping("/price")
     public List<Listing> getListingByPriceBetween( //NOT WORKING!!
             @RequestParam(
@@ -58,8 +64,7 @@ public class ListingController {
                     defaultValue = "0.0") double minPrice,
             @RequestParam(
                     value = "maxPrice",
-                    required = false,
-                    defaultValue = "1000000") double maxPrice) {
+                    required = false) double maxPrice) {
         return listingService.findByPriceBetween(minPrice, maxPrice);
     }
 
@@ -72,12 +77,13 @@ public class ListingController {
         return listingService.findByStartDateBetween(minStartDate, maxStartDate);
     }
 */
-
+//ok//
     @GetMapping("/location")
     public List<Listing> getListingByLocation(@RequestParam Location location) {
         return listingService.findByLocation(location);
     }
 
+//need to check!//
     @GetMapping("/{id}")
     public ResponseEntity<Listing> getListingById(@PathVariable Long id) {
         Optional<Listing> listing = listingService.getListingById(id);
@@ -85,6 +91,7 @@ public class ListingController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+//need to check!//
     @PatchMapping("/{id}")
     public ResponseEntity<Listing> updateListing(@PathVariable Long id, @RequestParam ListingUpdateDTO listingUpdateDTO) {
         try {
