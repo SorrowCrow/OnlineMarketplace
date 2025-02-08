@@ -2,10 +2,12 @@ package com.OnlineMarketplace.OnlineMarketplace.listing;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/listings")
@@ -21,6 +23,8 @@ public class ListingController {
         return listingService.createListing(listing);
     }
 */
+
+
 
     @GetMapping
     public List<Listing> getAllListings() {
@@ -62,7 +66,7 @@ public class ListingController {
     }
 
     @GetMapping("/{id}")
-    public Listing getListingById(@PathVariable long id) {
+    public Optional<Listing> getListingById(@PathVariable long id) {
         return listingService.getListingById(id);
     }
 
@@ -77,6 +81,12 @@ public class ListingController {
     public ResponseEntity<Void> deleteListing(@PathVariable Long id) {
         listingService.deleteListing(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/create")
+//    @PreAuthorize("isAuthenticated()")
+    public ResponseEntity<?> createListing(@RequestBody Listing listing){
+        return ResponseEntity.ok(listingService.createListing(listing));
     }
 
 

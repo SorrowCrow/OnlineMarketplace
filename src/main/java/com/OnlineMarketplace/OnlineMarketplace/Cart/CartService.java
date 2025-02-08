@@ -1,5 +1,6 @@
 package com.OnlineMarketplace.OnlineMarketplace.Cart;
 
+import com.OnlineMarketplace.OnlineMarketplace.listing.Listing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,5 +39,13 @@ public class CartService {
      */
     public Cart save(Cart cart) {
         return cartRepository.save(cart);
+    }
+
+    public void deleteListingFromCarts(Listing listing){
+        List<Cart> carts = cartRepository.findByListingsListingID(listing.getListingID());
+        carts.forEach(i-> {
+            i.removeListing(listing.getListingID());
+            cartRepository.save(i);
+        });
     }
 }

@@ -1,13 +1,25 @@
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
+import com.OnlineMarketplace.OnlineMarketplace.Cart.Cart;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
-@Data
+//@Data
 @Entity
-@Table(name="listing")
+@Table(name="listings")
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,13 +29,12 @@ public class Listing {
     @Enumerated(EnumType.STRING)
     private ListingType type;
 
-
     @Column(nullable = false)
-    private String itemName;
+    private String itemName = "default name";
 
-    private String description;
+    private String description="default description";
 
-    private double price;
+    private double price = 10000;
 
     @Enumerated(EnumType.STRING)
     private PriceUnit unit;
@@ -36,20 +47,21 @@ public class Listing {
     private LocalDateTime startDate = LocalDateTime.now();
 
     private LocalDateTime endDate = startDate.plusMonths(2);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
 
-    /*
-    @Setter
-    private boolean isActive;
-*/
+        if (!(o instanceof Listing))
+            return false;
 
-/*
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private long userID;
+        Listing other = (Listing) o;
 
-    @OneToOne
-    @JoinColumn(name = "item_id")
-    private long itemID;
-*/
+        return listingID == other.getListingID();
+    }
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
 
