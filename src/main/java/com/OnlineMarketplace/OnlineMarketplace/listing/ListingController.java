@@ -1,6 +1,5 @@
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
-import com.OnlineMarketplace.OnlineMarketplace.User.Model.User;
 import com.OnlineMarketplace.OnlineMarketplace.category.Category;
 import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingCreateDTO;
 import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingUpdateDTO;
@@ -105,11 +104,11 @@ public class ListingController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/create")
-//    @PreAuthorize("isAuthenticated()")
-    public ResponseEntity<?> createListing(@RequestBody Listing listing){
-        return ResponseEntity.ok(listingService.createListing(listing));
-    }
+//    @PostMapping("/create")
+////    @PreAuthorize("isAuthenticated()")
+//    public ResponseEntity<?> createListing(@RequestBody Listing listing){
+//        return ResponseEntity.ok(listingService.createListing(listing));
+//    }
 
 
 }

@@ -121,7 +121,7 @@ public class CartController {
         Listing list1 = new Listing();
         list1.setDescription("test");
         list1.setPrice(100);
-        list1.setItemName("Listing 1");
+        list1.setTitle("Listing 1");
 
         SignUpRequestDTO request = new SignUpRequestDTO();
 
