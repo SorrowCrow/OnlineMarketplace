@@ -2,6 +2,7 @@ package com.OnlineMarketplace.OnlineMarketplace.listing;
 
 import com.OnlineMarketplace.OnlineMarketplace.User.User;
 import com.OnlineMarketplace.OnlineMarketplace.category.Category;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -45,6 +46,7 @@ public class Listing {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties("cart")
     private User user;
 
     @ManyToOne
