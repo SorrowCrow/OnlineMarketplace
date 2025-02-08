@@ -63,7 +63,6 @@ public class PaymentService {
 //        }
 //        Listing listing = productOptional.get();
 
-
         SessionCreateParams.Builder paramsBuilder = SessionCreateParams.builder()
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setCustomer(customer.getId())
@@ -73,6 +72,8 @@ public class PaymentService {
 //                .setCancelUrl(clientBaseURL + "/swagger-ui/index.html#operations-tag-payment-controller");
 
         BigDecimal finalPrice = new BigDecimal(listingList.stream().mapToDouble(Listing::getPrice).sum()*100);
+
+        log.info(finalPrice.toString());
 
         paramsBuilder.addLineItem(
                 SessionCreateParams.LineItem.builder()
