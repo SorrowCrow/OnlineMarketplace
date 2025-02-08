@@ -44,7 +44,7 @@ public class CartService {
     public void deleteListingFromCarts(Listing listing){
         List<Cart> carts = cartRepository.findByListingsListingID(listing.getListingID());
         carts.forEach(i-> {
-            i.removeListing(listing);
+            i.removeListing(listing.getListingID());
             cartRepository.save(i);
         });
     }

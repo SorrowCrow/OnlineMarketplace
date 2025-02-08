@@ -6,10 +6,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.experimental.Accessors;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Slf4j
 @Entity
 @Data
 @Accessors(chain = true)
@@ -19,28 +21,23 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-//    @JoinTable
-    @OneToMany
-//    @ManyToMany(fetch = FetchType.LAZY
-//            ,
-//            cascade = {
-////            CascadeType.ALL
-////                    CascadeType.PERSIST,
-////                    CascadeType.MERGE
-//                    CascadeType.DETACH
-//            })
-//    @JoinTable(name = "cart_listings",
-//            joinColumns = {@JoinColumn(name = "cart_id")},
-//            inverseJoinColumns = {@JoinColumn(name = "listing_id")})
-//    @OnDelete(action = OnDeleteAction.CASCADE)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "cart_listings",
+            joinColumns = {@JoinColumn(name = "cart_id")},
+            inverseJoinColumns = {@JoinColumn(name = "listing_id")})
     private Set<Listing> listings = new HashSet<>();
 
     public void addListing(Listing listing) {
-        listings.add(listing);
+        this.listings.add(listing);
     }
 
-    public void removeListing(Listing listing) {
-        listings.removeIf(i -> i.getListingID() == listing.getListingID());
+    public void removeListing(Long listingId) {
+        Listing listing = this.listings.stream().filter(l -> l.getListingID() == listingId).findFirst().orElse(null);
+        log.info(listingId.toString() + (listing !=null));
+
+        if(listing !=null){
+            this.listings.remove(listing);
+        }
     }
 
     public void clearListings() {

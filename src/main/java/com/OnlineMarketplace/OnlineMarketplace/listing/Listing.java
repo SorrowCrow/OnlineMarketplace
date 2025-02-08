@@ -4,6 +4,8 @@ import com.OnlineMarketplace.OnlineMarketplace.Cart.Cart;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -11,9 +13,13 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+//@Data
 @Entity
 @Table(name="listings")
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Listing {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,30 +47,21 @@ public class Listing {
     private LocalDateTime startDate = LocalDateTime.now();
 
     private LocalDateTime endDate = startDate.plusMonths(2);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
 
-//    @ManyToMany(fetch = FetchType.LAZY,
-//            cascade = {
-////                    CascadeType.ALL,
-//                    CascadeType.DETACH
-//            },
-//            mappedBy = "listings")
-//    @JsonIgnore
-////    @OnDelete(action = OnDeleteAction.CASCADE)
-//    private Set<Cart> listings = new HashSet<>();
+        if (!(o instanceof Listing))
+            return false;
 
-    /*
-    @Setter
-    private boolean isActive;
-*/
+        Listing other = (Listing) o;
 
-/*
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private long userID;
+        return listingID == other.getListingID();
+    }
 
-    @OneToOne
-    @JoinColumn(name = "item_id")
-    private long itemID;
-*/
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 }
 

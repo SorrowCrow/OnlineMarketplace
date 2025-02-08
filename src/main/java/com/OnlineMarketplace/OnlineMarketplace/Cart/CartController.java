@@ -69,15 +69,15 @@ public class CartController {
             return ResponseEntity.badRequest().body(new MessageResponse("No such listing"));
         }
 
+        Listing listing = optionalListing.get();
+
         User user = optionalUser.get();
 
-        user.getCart().addListing(optionalListing.get());
-
-        user.getCart().addListing(optionalListing.get());
+        user.getCart().addListing(listing);
 
         cartService.save(user.getCart());
 
-        return ResponseEntity.ok(cartService.findAll());
+        return ResponseEntity.ok(user.getCart());
     }
 
     /**
@@ -96,15 +96,15 @@ public class CartController {
             return ResponseEntity.badRequest().body(new MessageResponse("User does not exist"));
         }
 
-        Optional<Listing> optionalListing = listingService.getListingById(listingId);
-
-        if(optionalListing.isEmpty()){
-            return ResponseEntity.badRequest().body(new MessageResponse("No such listing"));
-        }
+//        Optional<Listing> optionalListing = listingService.getListingById(listingId);
+//
+//        if(optionalListing.isEmpty()){
+//            return ResponseEntity.badRequest().body(new MessageResponse("No such listing"));
+//        }
 
         User user = optionalUser.get();
 
-        user.getCart().addListing(optionalListing.get());
+        user.getCart().removeListing(listingId);
 
         cartService.save(user.getCart());
 
