@@ -9,7 +9,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/reviews")
-@RequiredArgsConstructor // This generates the constructor for you (used for dependency injection)
+@RequiredArgsConstructor
 public class ReviewController {
 
     private final ReviewService reviewService; // Use 'final' for immutable dependencies
