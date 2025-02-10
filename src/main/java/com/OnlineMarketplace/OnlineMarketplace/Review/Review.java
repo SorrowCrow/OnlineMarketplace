@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "reviews") // Table name in the database
+@Table(name = "reviews")
 @Data // Lombok annotation to automatically generate getters, setters, and other methods like toString, equals, and hashCode
 public class Review {
 
@@ -21,5 +21,5 @@ public class Review {
     @Column(nullable = false)
     private int rating; // Rating can be an integer from 1 to 5 (or any valid rating range)
 
-    // Add any other fields you need, such as 'productId', 'createdAt', etc.
+
 }
