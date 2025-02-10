@@ -1,8 +1,8 @@
 package com.OnlineMarketplace.OnlineMarketplace;
 
-import com.OnlineMarketplace.OnlineMarketplace.entities.Review;
-import com.OnlineMarketplace.OnlineMarketplace.repositories.ReviewRepository;
-import com.OnlineMarketplace.OnlineMarketplace.services.ReviewService;
+import com.OnlineMarketplace.OnlineMarketplace.Review.Review;
+import com.OnlineMarketplace.OnlineMarketplace.Review.ReviewRepository;
+import com.OnlineMarketplace.OnlineMarketplace.Review.ReviewService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -55,9 +55,11 @@ class ReviewServiceTest {
 
         when(reviewRepository.findAll()).thenReturn(Arrays.asList(review1, review2));
 
+        // Act
         List<Review> reviews = reviewService.getAllReviews();
 
-        assertThat(Optional.ofNullable(reviews)).hasSameClassAs(2);
+        // Assert
+        assertThat(reviews).hasSize(2);
         verify(reviewRepository, times(1)).findAll();
     }
 

@@ -37,13 +37,7 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 
 	// Test dependencies
-	testImplementation 'org.springframework.boot:spring-boot-starter-test' // Includes JUnit, Mockito, etc.
-	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
-	testImplementation 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
-	testImplementation 'org.mockito:mockito-core:5.5.0'
-	testImplementation 'org.mockito:mockito-junit-jupiter:5.5.0'
-	testImplementation 'org.assertj:assertj-core:3.19.0'
-
+	testImplementation 'org.springframework.boot:spring-boot-starter-test:3.4.2'
 }
 
 tasks.named('test') {
