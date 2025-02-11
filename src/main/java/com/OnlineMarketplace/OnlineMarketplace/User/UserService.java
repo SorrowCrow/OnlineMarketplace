@@ -7,15 +7,18 @@ import com.OnlineMarketplace.OnlineMarketplace.Role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+
+
+import java.time.LocalDateTime;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
 public class UserService {
+
 
     @Autowired
     private UserRepository userRepository;
@@ -25,6 +28,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private JavaMailSender mailSender;
 
     public void deleteByUsername(String username) {
         userRepository.deleteByEmail(username);
@@ -43,13 +49,53 @@ public class UserService {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
+
+        String token = UUID.randomUUID().toString();
+        user.setVerificationToken(token);
+        user.setVerificationTokenExpiry(LocalDateTime.now().plusHours(24)); // Token valid for 24 hours
+        user.setAccountVerified(false);
+
         Set<Role> roles = new HashSet<>();
         Role role = roleRepository.findByName(ERole.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Role not found"));
         roles.add(role);
         user.setRoles(roles);
 
+        sendVerificationEmail(user.getEmail(), token);
+
         return userRepository.save(user);
+    }
+
+    private void sendVerificationEmail(String email, String token) {
+        String subject = "Verify Your Email - Online Marketplace";
+        String verificationUrl = "http://localhost:8080/api/auth/verify?token=" + token;
+
+        String message = "Thank you for registering! Please click the link below to verify your email:\n\n"
+                + verificationUrl + "\n\n"
+                + "This link will expire in 24 hours.";
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(email);
+        mailMessage.setSubject(subject);
+        mailMessage.setText(message);
+
+        mailSender.send(mailMessage);
+    }
+
+    public boolean verifyUser(String token) {
+        Optional<User> userOptional = userRepository.findByVerificationToken(token);
+        if (userOptional.isPresent()) {
+            User user = userOptional.get();
+            if (user.getVerificationTokenExpiry().isBefore(LocalDateTime.now())) {
+                return false; // Token expired
+            }
+            user.setAccountVerified(true);
+            user.setVerificationToken(null);
+            user.setVerificationTokenExpiry(null);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 
     public User createUser(User user, Set<String> roleNames) {
@@ -66,6 +112,7 @@ public class UserService {
     }
 
 
+
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
@@ -74,6 +121,36 @@ public class UserService {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    public User updateUserCart(User user){
+        Optional<User> dbUser = userRepository.findById(user.getId());
+
+        if(dbUser.isPresent()){
+            User existingUser = dbUser.get();
+
+            existingUser.setCart(user.getCart());
+
+            return userRepository.save(existingUser);
+        }
+        return null;
+
+    }
+
+    public boolean resendVerificationEmail(String email) {
+        Optional<User> userOptional = userRepository.findByEmail(email);
+        if (userOptional.isPresent() && !userOptional.get().isAccountVerified()) {
+            String newToken = UUID.randomUUID().toString();
+            User user = userOptional.get();
+            user.setVerificationToken(newToken);
+            user.setVerificationTokenExpiry(LocalDateTime.now().plusHours(24));
+            userRepository.save(user);
+            sendVerificationEmail(user.getEmail(), newToken);
+            return true;
+        }
+        return false;
+    }
+
+
 
     public User updateUser(Long id, User user) {
         Optional<User> existingUserOptional = userRepository.findById(id);

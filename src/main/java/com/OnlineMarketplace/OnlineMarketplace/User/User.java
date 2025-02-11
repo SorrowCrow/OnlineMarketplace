@@ -5,6 +5,7 @@ import com.OnlineMarketplace.OnlineMarketplace.Role.Role;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,6 +24,13 @@ public class User {
     private String surname;
     private String email;
     private String password;
+    private boolean accountVerified;
+    @Column(nullable = true, unique = true)
+    private String verificationToken;
+
+    @Column(nullable = true)
+    private LocalDateTime verificationTokenExpiry;
+
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -33,7 +41,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @OneToOne(cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @JoinColumn
     private Cart cart = new Cart();
 
     public User(String email,String name, String surname, String password) {
@@ -42,4 +50,6 @@ public class User {
         this.surname = surname;
         this.password = password;
     }
+
+
 }
