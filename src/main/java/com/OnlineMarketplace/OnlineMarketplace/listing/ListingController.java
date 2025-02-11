@@ -2,6 +2,7 @@ package com.OnlineMarketplace.OnlineMarketplace.listing;
 
 import com.OnlineMarketplace.OnlineMarketplace.category.Category;
 import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingCreateDTO;
+import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingSearchDTO;
 import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingUpdateDTO;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -53,7 +54,7 @@ public class ListingController {
 
 //ok//
     @GetMapping("/price")
-    public List<Listing> getListingByPriceBetween( //NOT WORKING!!
+    public List<Listing> getListingByPriceBetween(
             @RequestParam(
                     value = "minPrice",
                     required = false,
@@ -79,6 +80,12 @@ public class ListingController {
         return listingService.findByLocation(location);
     }
 
+//ok//
+    @GetMapping("/keyword")
+    public List<Listing> getListingByKeyword(@RequestParam String keyword) {
+        return listingService.searchByDescriptionKeyword(keyword);
+    }
+
 //need to check!//
     @GetMapping("/{id}")
     public ResponseEntity<Listing> getListingById(@PathVariable Long id) {
@@ -97,7 +104,8 @@ public class ListingController {
             return ResponseEntity.notFound().build();
         }
     }
-//ok//
+
+    //ok//
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteListing(@PathVariable Long id) {  //204
         listingService.deleteListing(id);
@@ -110,5 +118,9 @@ public class ListingController {
 //        return ResponseEntity.ok(listingService.createListing(listing));
 //    }
 
+    @GetMapping("/search")
+        public List<Listing> searchListings(@ModelAttribute ListingSearchDTO listingSearchDTO) {
+        return listingService.searchListings(listingSearchDTO);
+    }
 
 }

@@ -35,7 +35,7 @@ public class Listing {
     private PriceUnit unit;
 
     @Enumerated(EnumType.STRING)
-    private Location location; //ArrayList to hold several Locations?
+    private Location location;
 
     @CreationTimestamp
     @Column(name = "start_date", updatable = false)
