@@ -16,21 +16,21 @@ public class UserController {
 
 //    @PreAuthorize("#id == authentication.principal.email")
     @GetMapping("/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable Long id) {
+    public ResponseEntity<?> getUserById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(userService.getUserById(id));
     }
 
 
 //    @PreAuthorize("#id == authentication.principal.email")
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<?> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
         return ResponseEntity.ok(userService.updateUser(id, user));
     }
 
 
 //    @PreAuthorize("#id == authentication.principal.email")
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
         boolean isDeleted = userService.deleteUser(id);
         if (isDeleted) {
             return ResponseEntity.ok("User deleted successfully");
