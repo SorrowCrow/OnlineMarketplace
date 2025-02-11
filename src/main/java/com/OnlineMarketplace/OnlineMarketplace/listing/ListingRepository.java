@@ -23,11 +23,6 @@ import java.util.Optional;
 @Repository
 public interface ListingRepository extends JpaRepository<Listing, Long> {
 
-/*
-    @PersistenceContext
-    EntityManager entityManager;
-*/
-
     List<Listing> findByType(ListingType type);
 
     List<Listing> findByPriceBetween(BigDecimal minPrice, BigDecimal maxPrice);
@@ -40,10 +35,6 @@ public interface ListingRepository extends JpaRepository<Listing, Long> {
 
     @Query("SELECT l FROM Listing l WHERE LOWER(l.description) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(l.title) LIKE LOWER(CONCAT('%', :keyword, '%'))")
     List<Listing> searchByDescriptionKeyword(@Param("keyword") String keyword);
-
-//    List<Listing> findByStartDateBetween(LocalDateTime minStartDate, LocalDateTime maxStartDate);
-
-//    List<Listing> findByEndDate(LocalDateTime endDate);
 
 /*
     default List<Listing> searchListings(ListingSearchDTO listingSearchDTO) {

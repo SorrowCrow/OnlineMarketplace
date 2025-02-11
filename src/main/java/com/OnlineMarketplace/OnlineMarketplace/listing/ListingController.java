@@ -24,7 +24,7 @@ public class ListingController {
     @Autowired
     private ListingService listingService;
 
-//need to check!//
+//ok//
     @PostMapping
     public ResponseEntity<Listing> createListing(@Valid @RequestBody ListingCreateDTO listingCreateDTO) {
         try {
@@ -41,7 +41,7 @@ public class ListingController {
         return listingService.getAllListings();
     }
 
-//need to check!//
+//ok//
     @GetMapping("/user/{userID}")
     public List<Listing> getListingsByUserId(@PathVariable Long userID) {
         return listingService.findByUserId(userID);
@@ -66,34 +66,25 @@ public class ListingController {
         return listingService.findByPriceBetween(minPrice, maxPrice);
     }
 
-/*
-    @GetMapping
-    public List<Listing> getListingByStartDateBetween(
-            @RequestParam LocalDateTime minStartDate,
-            @RequestParam LocalDateTime maxStartDate) {
-        return listingService.findByStartDateBetween(minStartDate, maxStartDate);
-    }
-*/
-
 //ok//
     @GetMapping("/location")
     public List<Listing> getListingByLocation(@RequestParam Location location) {
         return listingService.findByLocation(location);
     }
 
-    //ok//
+//ok//
     @GetMapping("/category")
     public List<Listing> getListingByCategory(@RequestParam Category category) {
         return listingService.findByCategory(category);
     }
 
-    //ok//
+//ok//
     @GetMapping("/keyword")
     public List<Listing> getListingByKeyword(@RequestParam String keyword) {
         return listingService.searchByDescriptionKeyword(keyword);
     }
 
-//need to check!//
+//ok//
     @GetMapping("/{id}")
     public ResponseEntity<Listing> getListingById(@PathVariable Long id) {
         Optional<Listing> listing = listingService.getListingById(id);
@@ -101,7 +92,7 @@ public class ListingController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-//need to check!//
+//ok//
     @PatchMapping("/{id}")
     public ResponseEntity<Listing> updateListing(@PathVariable Long id, @Valid @RequestBody ListingUpdateDTO listingUpdateDTO) {
         try {
@@ -119,17 +110,5 @@ public class ListingController {
         return ResponseEntity.noContent().build();
     }
 
-//    @PostMapping("/create")
-////    @PreAuthorize("isAuthenticated()")
-//    public ResponseEntity<?> createListing(@RequestBody Listing listing){
-//        return ResponseEntity.ok(listingService.createListing(listing));
-//    }
-
-/*
-    @GetMapping("/search")
-        public List<Listing> searchListings(@ModelAttribute ListingSearchDTO listingSearchDTO) {
-        return listingService.searchListings(listingSearchDTO);
-    }
-*/
 
 }

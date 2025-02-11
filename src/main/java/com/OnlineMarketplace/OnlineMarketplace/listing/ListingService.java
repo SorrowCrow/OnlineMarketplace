@@ -118,9 +118,11 @@ public class ListingService {
         if (listingUpdateDTO.getPriceUnit() != null) {
             listing.setUnit(listingUpdateDTO.getPriceUnit());
         }
+/*
         if (listingUpdateDTO.getEndDate() != null) {
             listing.setEndDate(listingUpdateDTO.getEndDate());
         }
+*/
         if (listingUpdateDTO.getCategoryID() != null) {
             Category newCategory = categoryRepository.findById(listingUpdateDTO.getCategoryID())
                     .orElseThrow(() -> new EntityNotFoundException("Category not found"));
