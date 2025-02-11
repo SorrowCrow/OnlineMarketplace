@@ -33,7 +33,5 @@ public class ListingUpdateDTO {
 
     private Location location;
 
-    private LocalDateTime endDate;
-
     private Long categoryID;
 }

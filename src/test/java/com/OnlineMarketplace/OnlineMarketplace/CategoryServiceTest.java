@@ -3,6 +3,7 @@ package com.OnlineMarketplace.OnlineMarketplace;
 import com.OnlineMarketplace.OnlineMarketplace.category.Category;
 import com.OnlineMarketplace.OnlineMarketplace.category.CategoryRepository;
 import com.OnlineMarketplace.OnlineMarketplace.category.CategoryService;
+import com.OnlineMarketplace.OnlineMarketplace.listing.CategoryType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -31,8 +32,8 @@ class CategoryServiceTest {
 
     @Test
     void testGetAllCategories() {
-        Category category1 = new Category(1L, "Electronics", "Devices and gadgets");
-        Category category2 = new Category(2L, "Books", "Various books");
+        Category category1 = new Category(1L, CategoryType.valueOf("ELECTRONICS"), "Devices", "Various devices");
+        Category category2 = new Category(2L, CategoryType.valueOf("HOBBY"),"Paintings", "Various paintings");
 
         when(categoryRepository.findAll()).thenReturn(Arrays.asList(category1, category2));
 
@@ -44,22 +45,22 @@ class CategoryServiceTest {
 
     @Test
     void testGetCategoryById() {
-        Category category = new Category(1L, "Electronics", "Devices and gadgets");
+        Category category = new Category(1L, CategoryType.valueOf("ELECTRONICS"), "Devices", "Various devices");
 
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(category));
 
         Optional<Category> foundCategory = categoryService.getCategoryById(1L);
 
         assertThat(foundCategory).isPresent();
-        assertThat(foundCategory.get().getName()).isEqualTo("Electronics");
+        assertThat(foundCategory.get().getName()).isEqualTo("Devices");
         verify(categoryRepository, times(1)).findById(1L);
     }
 
     @Test
     void testCreateCategory() {
-        Category category = new Category(null, "Fashion", "Clothing and accessories");
+        Category category = new Category(null, CategoryType.valueOf("CLOTHING"),"Fashion", "Clothing and accessories");
 
-        when(categoryRepository.save(category)).thenReturn(new Category(1L, "Fashion", "Clothing and accessories"));
+        when(categoryRepository.save(category)).thenReturn(new Category(1L, CategoryType.valueOf("CLOTHING"), "Fashion","Clothing and accessories"));
 
         Category savedCategory = categoryService.createCategory(category);
 
@@ -70,8 +71,8 @@ class CategoryServiceTest {
 
     @Test
     void testUpdateCategory() {
-        Category existingCategory = new Category(1L, "Electronics", "Devices and gadgets");
-        Category updatedDetails = new Category(1L, "Tech", "Updated description");
+        Category existingCategory = new Category(1L, CategoryType.valueOf("ELECTRONICS"), "Devices", "Various devices");
+        Category updatedDetails = new Category(1L, CategoryType.valueOf("ELECTRONICS"), "Tech", "Updated description");
 
         when(categoryRepository.findById(1L)).thenReturn(Optional.of(existingCategory));
         when(categoryRepository.save(any(Category.class))).thenReturn(updatedDetails);
