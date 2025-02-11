@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,7 +30,7 @@ public class Listing {
 
     private String description;
 
-    private double price;
+    private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
     private PriceUnit unit;

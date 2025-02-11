@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -42,12 +43,16 @@ public class ListingService {
         return listingRepository.findByType(type);
     }
 
-    public List<Listing> findByPriceBetween(double minPrice, double maxPrice) {
+    public List<Listing> findByPriceBetween(BigDecimal minPrice, BigDecimal maxPrice) {
         return listingRepository.findByPriceBetween(minPrice, maxPrice);
     }
 
     public List<Listing> findByLocation(Location location) {
         return listingRepository.findByLocation(location);
+    }
+
+    public List<Listing> findByCategory(Category category) {
+        listingRepository.findByCategory(category);
     }
 
     public Optional<Listing> getListingById(Long id) {
@@ -58,9 +63,11 @@ public class ListingService {
         return listingRepository.searchByDescriptionKeyword(keyword);
     }
 
+/*
     public List<Listing> searchListings(ListingSearchDTO listingSearchDTO) {
         return listingRepository.searchListings(listingSearchDTO);
     }
+*/
 
 /*
     public List<Listing> findByStartDateBetween(LocalDateTime minStartDate, LocalDateTime maxStartDate) {
