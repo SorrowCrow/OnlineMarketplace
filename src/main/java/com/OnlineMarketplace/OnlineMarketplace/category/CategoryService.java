@@ -1,5 +1,6 @@
 package com.OnlineMarketplace.OnlineMarketplace.category;
 
+import com.OnlineMarketplace.OnlineMarketplace.listing.CategoryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,10 @@ public class CategoryService {
         return categoryRepository.findAll();
     }
 
+    public List<Category> getCategoryByType(CategoryType type) {
+        return categoryRepository.findByType(type);
+    }
+
     public Optional<Category> getCategoryById(Long id) {
         return categoryRepository.findById(id);
     }
@@ -31,6 +36,7 @@ public class CategoryService {
     public Category updateCategory(Long id, Category categoryDetails) {
         return categoryRepository.findById(id)
                 .map(category -> {
+                    category.setType(categoryDetails.getType());
                     category.setName(categoryDetails.getName());
                     category.setDescription(categoryDetails.getDescription());
                     return categoryRepository.save(category);

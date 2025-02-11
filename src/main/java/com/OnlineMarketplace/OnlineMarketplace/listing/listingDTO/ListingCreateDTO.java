@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -29,7 +30,7 @@ public class ListingCreateDTO {
 
     @NotNull(message = "Price must be provided")
     @Size(min = 0, message = "Price must not be negative")
-    private double price;
+    private BigDecimal price;
 
     @NotNull (message = "Unit for the price must be provided")
     private PriceUnit priceUnit;

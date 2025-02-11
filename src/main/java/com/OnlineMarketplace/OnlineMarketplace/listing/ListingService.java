@@ -10,8 +10,10 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.EntityNotFoundException;
 import com.OnlineMarketplace.OnlineMarketplace.Cart.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -41,27 +43,37 @@ public class ListingService {
         return listingRepository.findByType(type);
     }
 
-    public List<Listing> findByPriceBetween(double minPrice, double maxPrice) {
+    public List<Listing> findByPriceBetween(BigDecimal minPrice, BigDecimal maxPrice) {
         return listingRepository.findByPriceBetween(minPrice, maxPrice);
     }
 
-/*
-    public List<Listing> findByStartDateBetween(LocalDateTime minStartDate, LocalDateTime maxStartDate) {
-        return listingRepository.findByStartDateBetween(minStartDate, maxStartDate);
-    }
-*/
-
     public List<Listing> findByLocation(Location location) {
         return listingRepository.findByLocation(location);
+    }
+
+    public List<Listing> findByCategory(Category category) {
+        return listingRepository.findByCategory(category);
     }
 
     public Optional<Listing> getListingById(Long id) {
         return listingRepository.findById(id);
     }
 
-//    public List<Listing> searchByDescriptionKeyword(@Param("keyword") String keyword);
+    public List<Listing> searchByDescriptionKeyword(@Param("keyword") String keyword) {
+        return listingRepository.searchByDescriptionKeyword(keyword);
+    }
 
-//    public List<Listing> searchListingsMultiParam(ListingSearchDTO listingSearchDTO){}
+/*
+    public List<Listing> searchListings(ListingSearchDTO listingSearchDTO) {
+        return listingRepository.searchListings(listingSearchDTO);
+    }
+*/
+
+/*
+    public List<Listing> findByStartDateBetween(LocalDateTime minStartDate, LocalDateTime maxStartDate) {
+        return listingRepository.findByStartDateBetween(minStartDate, maxStartDate);
+    }
+*/
 
     public Listing createListing(ListingCreateDTO listingCreateDTO) {
         Listing listing = new Listing();
@@ -92,36 +104,29 @@ public class ListingService {
         if (existingListing.isEmpty()) {
             throw new EntityNotFoundException("Listing not found");
         }
-
         Listing listing = existingListing.get();
         if (listingUpdateDTO.getType() != null) {
             listing.setType(listingUpdateDTO.getType());
         }
-
         if (listingUpdateDTO.getTitle() != null) {
             listing.setTitle(listingUpdateDTO.getTitle());
         }
-
         if (listingUpdateDTO.getDescription() != null) {
             listing.setDescription(listingUpdateDTO.getDescription());
         }
-
         listing.setPrice(listingUpdateDTO.getPrice());
         if (listingUpdateDTO.getPriceUnit() != null) {
             listing.setUnit(listingUpdateDTO.getPriceUnit());
         }
-
         if (listingUpdateDTO.getEndDate() != null) {
             listing.setEndDate(listingUpdateDTO.getEndDate());
         }
-
         if (listingUpdateDTO.getCategoryID() != null) {
             Category newCategory = categoryRepository.findById(listingUpdateDTO.getCategoryID())
                     .orElseThrow(() -> new EntityNotFoundException("Category not found"));
             listing.setCategory(newCategory);
         }
         return listingRepository.save(listing);
-
     }
 
     public void deleteListing(Long id) {

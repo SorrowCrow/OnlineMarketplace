@@ -1,5 +1,6 @@
 package com.OnlineMarketplace.OnlineMarketplace.category;
 
+import com.OnlineMarketplace.OnlineMarketplace.listing.CategoryType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,10 @@ public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = false)
+    CategoryType type;
 
     @Column(nullable = false, unique = true)
     private String name;

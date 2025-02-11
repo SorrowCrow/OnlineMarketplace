@@ -2,6 +2,7 @@ package com.OnlineMarketplace.OnlineMarketplace.listing;
 
 import com.OnlineMarketplace.OnlineMarketplace.category.Category;
 import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingCreateDTO;
+import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingSearchDTO;
 import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingUpdateDTO;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -53,14 +55,14 @@ public class ListingController {
 
 //ok//
     @GetMapping("/price")
-    public List<Listing> getListingByPriceBetween( //NOT WORKING!!
+    public List<Listing> getListingByPriceBetween(
             @RequestParam(
                     value = "minPrice",
                     required = false,
-                    defaultValue = "0.0") double minPrice,
+                    defaultValue = "0.0") BigDecimal minPrice,
             @RequestParam(
                     value = "maxPrice",
-                    required = false) double maxPrice) {
+                    required = false) BigDecimal maxPrice) {
         return listingService.findByPriceBetween(minPrice, maxPrice);
     }
 
@@ -77,6 +79,18 @@ public class ListingController {
     @GetMapping("/location")
     public List<Listing> getListingByLocation(@RequestParam Location location) {
         return listingService.findByLocation(location);
+    }
+
+    //ok//
+    @GetMapping("/category")
+    public List<Listing> getListingByCategory(@RequestParam Category category) {
+        return listingService.findByCategory(category);
+    }
+
+    //ok//
+    @GetMapping("/keyword")
+    public List<Listing> getListingByKeyword(@RequestParam String keyword) {
+        return listingService.searchByDescriptionKeyword(keyword);
     }
 
 //need to check!//
@@ -97,7 +111,8 @@ public class ListingController {
             return ResponseEntity.notFound().build();
         }
     }
-//ok//
+
+    //ok//
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteListing(@PathVariable Long id) {  //204
         listingService.deleteListing(id);
@@ -110,5 +125,11 @@ public class ListingController {
 //        return ResponseEntity.ok(listingService.createListing(listing));
 //    }
 
+/*
+    @GetMapping("/search")
+        public List<Listing> searchListings(@ModelAttribute ListingSearchDTO listingSearchDTO) {
+        return listingService.searchListings(listingSearchDTO);
+    }
+*/
 
 }
