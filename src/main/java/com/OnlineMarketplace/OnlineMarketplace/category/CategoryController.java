@@ -31,8 +31,8 @@ public class CategoryController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/type/{type}")
-    public List<Category> getCategoryByCategoryType(@PathVariable CategoryType type) {
+    @GetMapping("/type")
+    public List<Category> getCategoryByCategoryType(@RequestParam CategoryType type) {
         return categoryService.getCategoryByType(type);
     }
 
