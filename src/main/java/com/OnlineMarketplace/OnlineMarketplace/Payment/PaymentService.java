@@ -71,7 +71,10 @@ public class PaymentService {
                 .setCancelUrl(clientBaseURL + "/api/payments/failure");
 //                .setCancelUrl(clientBaseURL + "/swagger-ui/index.html#operations-tag-payment-controller");
 
-        BigDecimal finalPrice = new BigDecimal(listingList.stream().mapToDouble(Listing::getPrice).sum()*100);
+        BigDecimal finalPrice = listingList.stream()
+                .map(Listing::getPrice)
+                .reduce(BigDecimal.ZERO, BigDecimal::add)
+                .multiply(new BigDecimal("100"));
 
         log.info(finalPrice.toString());
 

@@ -7,6 +7,7 @@ import com.OnlineMarketplace.OnlineMarketplace.listing.PriceUnit;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -26,10 +27,10 @@ public class ListingSearchDTO {
 */
 
     @Size(min = 0, message = "Price must not be negative")
-    private Optional<Double> minPrice;
+    private Optional<BigDecimal> minPrice;
 
     @Size(min = 0, message = "Price must not be negative")
-    private Optional<Double> maxPrice;
+    private Optional<BigDecimal> maxPrice;
 
     private Optional<PriceUnit> unit;
 

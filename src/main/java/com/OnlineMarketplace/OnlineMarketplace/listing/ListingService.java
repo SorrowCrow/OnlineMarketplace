@@ -52,7 +52,7 @@ public class ListingService {
     }
 
     public List<Listing> findByCategory(Category category) {
-        listingRepository.findByCategory(category);
+        return listingRepository.findByCategory(category);
     }
 
     public Optional<Listing> getListingById(Long id) {
@@ -74,8 +74,6 @@ public class ListingService {
         return listingRepository.findByStartDateBetween(minStartDate, maxStartDate);
     }
 */
-
-    //    public List<Listing> searchListingsMultiParam(ListingSearchDTO listingSearchDTO){}
 
     public Listing createListing(ListingCreateDTO listingCreateDTO) {
         Listing listing = new Listing();

@@ -19,8 +19,9 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true)
-    CategoryType categoryType;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, unique = false)
+    CategoryType type;
 
     @Column(nullable = false, unique = true)
     private String name;

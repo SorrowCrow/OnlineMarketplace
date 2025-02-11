@@ -1,5 +1,6 @@
 package com.OnlineMarketplace.OnlineMarketplace.category;
 
+import com.OnlineMarketplace.OnlineMarketplace.listing.CategoryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,11 @@ public class CategoryController {
         Optional<Category> category = categoryService.getCategoryById(id);
         return category.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/type/{type}")
+    public List<Category> getCategoryByCategoryType(@PathVariable CategoryType type) {
+        return categoryService.getCategoryByType(type);
     }
 
     @PostMapping

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -26,7 +27,7 @@ public class ListingUpdateDTO {
     private String description;
 
     @Size(min = 0, message = "Price must not be negative")
-    private double price;
+    private BigDecimal price;
 
     private PriceUnit priceUnit;
 

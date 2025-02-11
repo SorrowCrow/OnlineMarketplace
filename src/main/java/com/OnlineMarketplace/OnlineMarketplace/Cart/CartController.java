@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -120,7 +121,7 @@ public class CartController {
     public ResponseEntity<?> checkCarts() {
         Listing list1 = new Listing();
         list1.setDescription("test");
-        list1.setPrice(100);
+        list1.setPrice(BigDecimal.valueOf(100));
         list1.setTitle("Listing 1");
 
         SignUpRequestDTO request = new SignUpRequestDTO();
