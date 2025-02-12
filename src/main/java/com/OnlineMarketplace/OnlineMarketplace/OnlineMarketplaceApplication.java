@@ -14,6 +14,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
 
@@ -25,10 +26,11 @@ public class OnlineMarketplaceApplication {
     }
 
     @Bean
-    public CommandLineRunner loadData(UserService userService, ListingService listingService, CategoryService categoryService, UserRepository userRepository) {
+    public CommandLineRunner loadData(ListingService listingService, CategoryService categoryService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return (args) -> {
             // Populate database
-            User user = userService.createUser(new SignUpRequestDTO("andrejs@andrejs.com", "andrejs", "Andrejs", "Matvejevs"));
+            User user = new User("andrejs@andrejs.com", "Andrejs", "Matvejevs", "andrejs");
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setAccountVerified(true);
             user.setVerificationToken(null);
             user.setVerificationTokenExpiry(null);
