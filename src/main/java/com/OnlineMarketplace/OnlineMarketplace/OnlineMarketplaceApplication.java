@@ -2,6 +2,7 @@ package com.OnlineMarketplace.OnlineMarketplace;
 
 import com.OnlineMarketplace.OnlineMarketplace.Auth.SignUpRequestDTO;
 import com.OnlineMarketplace.OnlineMarketplace.User.User;
+import com.OnlineMarketplace.OnlineMarketplace.User.UserRepository;
 import com.OnlineMarketplace.OnlineMarketplace.User.UserService;
 import com.OnlineMarketplace.OnlineMarketplace.Wordlist.Wordlist;
 import com.OnlineMarketplace.OnlineMarketplace.category.Category;
@@ -24,10 +25,15 @@ public class OnlineMarketplaceApplication {
     }
 
     @Bean
-    public CommandLineRunner loadData(UserService userService, ListingService listingService, CategoryService categoryService) {
+    public CommandLineRunner loadData(UserService userService, ListingService listingService, CategoryService categoryService, UserRepository userRepository) {
         return (args) -> {
             // Populate database
             User user = userService.createUser(new SignUpRequestDTO("andrejs@andrejs.com", "andrejs", "Andrejs", "Matvejevs"));
+            user.setAccountVerified(true);
+            user.setVerificationToken(null);
+            user.setVerificationTokenExpiry(null);
+            user = userRepository.save(user);
+
             Category category = categoryService.createCategory(new Category().setName("default name").setDescription("default description").setType(CategoryType.ELECTRONICS));
             log.info(Wordlist.productDescriptions.size()+"");
             log.info(Wordlist.productTitles.size()+"");
