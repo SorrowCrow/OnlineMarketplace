@@ -1,4 +1,5 @@
 package com.OnlineMarketplace.OnlineMarketplace.listing;
+
 import com.OnlineMarketplace.OnlineMarketplace.User.User;
 import com.OnlineMarketplace.OnlineMarketplace.User.UserRepository;
 import com.OnlineMarketplace.OnlineMarketplace.category.Category;
@@ -9,8 +10,13 @@ import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingUpdateD
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.EntityNotFoundException;
 import com.OnlineMarketplace.OnlineMarketplace.Cart.CartService;
+import com.OnlineMarketplace.OnlineMarketplace.Role.ERole;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
@@ -21,7 +27,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 public class ListingService {
@@ -38,7 +43,7 @@ public class ListingService {
     @Autowired
     private CartService cartService;
 
-    public Page<Listing> findAll(Pageable pageable){
+    public Page<Listing> findAll(Pageable pageable) {
         return listingRepository.findAll(pageable);
     }
 
@@ -131,10 +136,30 @@ public class ListingService {
 
     public void deleteListing(Long id) {
         Optional<Listing> optionalListing = getListingById(id);
-        if(optionalListing.isEmpty()){
+        if (optionalListing.isEmpty()) {
             return;
         }
-        cartService.deleteListingFromCarts(optionalListing.get());
+        // cartService.deleteListingFromCarts(optionalListing.get());
+        // listingRepository.deleteById(id);
+        Listing listing = optionalListing.get();
+
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!(principal instanceof UserDetails)) {
+            throw new AccessDeniedException("Unauthorized access");
+        }
+        String email = ((UserDetails) principal).getUsername(); 
+        User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+
+        boolean isOwner = listing.getUser().getId().equals(currentUser.getId());
+        boolean isAdmin = currentUser.getRoles().stream()
+                .anyMatch(role -> role.getName().equals(ERole.ROLE_ADMIN));
+
+        if (!isOwner && !isAdmin) {
+            throw new AccessDeniedException("You are not authorized to delete this listing.");
+        }
+
+        cartService.deleteListingFromCarts(listing);
         listingRepository.deleteById(id);
     }
 }
