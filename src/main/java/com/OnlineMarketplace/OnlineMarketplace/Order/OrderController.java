@@ -25,12 +25,17 @@ public class OrderController {
     private OrderService orderService;
 
     @PostMapping("/create/{listingId}/{buyerId}")
-    public Order createOrder(@PathVariable("listingId") Long listingId, @PathVariable("buyerId") Long buyerId) {
-        return orderService.createOrder(buyerId, listingId);
+    public Order createOrder(@PathVariable("listingId") Long listingId) {
+        return orderService.createOrder( listingId);
     }
     @GetMapping("/get all orders")
     public ResponseEntity<List<Order>> getAllOrders() {
         List<Order> orders = orderService.getAllOrders();
+        return ResponseEntity.ok(orders);
+    }
+    @GetMapping("/my")
+    public ResponseEntity<List<Order>> getMyOrders() {
+        List<Order> orders = orderService.getOrdersByBuyer();
         return ResponseEntity.ok(orders);
     }
     @GetMapping("/get order/{id}")

@@ -70,6 +70,5 @@ public class Order {
         this.category = listing.getCategory();
         this.location = listing.getLocation();
 
-    
     }
 }

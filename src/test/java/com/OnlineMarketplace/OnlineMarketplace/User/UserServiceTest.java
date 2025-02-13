@@ -70,7 +70,7 @@ class UserServiceTest {
         when(passwordEncoder.encode(anyString())).thenReturn("encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        User createdUser = userService.createUser(request);
+        User createdUser = userService.createUser(request, false);
 
         assertNotNull(createdUser);
         assertEquals("test@example.com", createdUser.getEmail());
