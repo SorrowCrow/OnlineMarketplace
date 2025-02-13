@@ -1,9 +1,8 @@
 package com.OnlineMarketplace.OnlineMarketplace;
 
-import com.OnlineMarketplace.OnlineMarketplace.Auth.SignUpRequestDTO;
+import com.OnlineMarketplace.OnlineMarketplace.Cart.CartService;
 import com.OnlineMarketplace.OnlineMarketplace.User.User;
 import com.OnlineMarketplace.OnlineMarketplace.User.UserRepository;
-import com.OnlineMarketplace.OnlineMarketplace.User.UserService;
 import com.OnlineMarketplace.OnlineMarketplace.Wordlist.Wordlist;
 import com.OnlineMarketplace.OnlineMarketplace.category.Category;
 import com.OnlineMarketplace.OnlineMarketplace.category.CategoryService;
@@ -30,9 +29,8 @@ public class OnlineMarketplaceApplication {
     }
 
     @Bean
-    public CommandLineRunner loadData(ListingService listingService, CategoryService categoryService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public CommandLineRunner loadData(ListingService listingService, CategoryService categoryService, UserRepository userRepository, PasswordEncoder passwordEncoder, CartService cartService) {
         return (args) -> {
-            // Populate database
 
             List<String> names = new ArrayList<>(List.of("Andrejs", "Anton", "Ruslan", "Lelde", "Ieva"));
             List<String> surnames = new ArrayList<>(List.of("Matvejevs", "Den", "Dzhubuev", "Brosova", "Krigere"));
@@ -96,6 +94,8 @@ public class OnlineMarketplaceApplication {
 //                Category category = allCategories.get(0);
                 listingService.createListing(new ListingCreateDTO(ListingType.SELL, Wordlist.productTitles.get(i), Wordlist.productDescriptions.get(i), BigDecimal.valueOf(Wordlist.productPrices.get(i)), PriceUnit.PIECE, Location.RIGA, user.getId(), category.getId()));
             }
+            cartService.save(user.getCart());
+
         };
     }
 }

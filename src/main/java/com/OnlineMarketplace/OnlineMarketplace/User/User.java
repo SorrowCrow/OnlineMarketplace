@@ -2,6 +2,8 @@ package com.OnlineMarketplace.OnlineMarketplace.User;
 
 import com.OnlineMarketplace.OnlineMarketplace.Cart.Cart;
 import com.OnlineMarketplace.OnlineMarketplace.Role.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,14 +23,22 @@ public class User {
     private Long id;
 
     private String name;
+
     private String surname;
+
     private String email;
+
+    @JsonIgnore
     private String password;
+
     private boolean accountVerified;
+
     @Column(nullable = true, unique = true)
+    @JsonIgnore
     private String verificationToken;
 
     @Column(nullable = true)
+    @JsonIgnore
     private LocalDateTime verificationTokenExpiry;
 
 
