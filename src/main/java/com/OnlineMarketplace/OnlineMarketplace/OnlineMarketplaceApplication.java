@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 @Slf4j
 @SpringBootApplication
@@ -36,7 +35,7 @@ public class OnlineMarketplaceApplication {
             List<String> surnames = new ArrayList<>(List.of("Matvejevs", "Den", "Dzhubuev", "Brosova", "Krigere"));
 
             for (int i = 0; i < names.size(); i++) {
-                User user = new User(names.get(i).toLowerCase()+"@"+names.get(i).toLowerCase()+".com", names.get(i), surnames.get(i), names.get(i).toLowerCase());
+                User user = new User(names.get(i).toLowerCase() + "@" + names.get(i).toLowerCase() + ".com", names.get(i), surnames.get(i), names.get(i).toLowerCase());
                 user.setPassword(passwordEncoder.encode(user.getPassword()));
                 user.setAccountVerified(true);
                 user.setVerificationToken(null);
@@ -84,9 +83,9 @@ public class OnlineMarketplaceApplication {
 
             List<User> users = userRepository.findAll();
 //            List<Category> allCategories = categoryService.getAllCategories();
-            log.info(Wordlist.productDescriptions.size()+"");
-            log.info(Wordlist.productTitles.size()+"");
-            log.info(Wordlist.productPrices.size()+"");
+            log.info(Wordlist.productDescriptions.size() + "");
+            log.info(Wordlist.productTitles.size() + "");
+            log.info(Wordlist.productPrices.size() + "");
             for (int i = 0; i < Wordlist.productTitles.size(); i++) {
                 Collections.shuffle(users);
 //                Collections.shuffle(allCategories);
@@ -94,8 +93,6 @@ public class OnlineMarketplaceApplication {
 //                Category category = allCategories.get(0);
                 listingService.createListing(new ListingCreateDTO(ListingType.SELL, Wordlist.productTitles.get(i), Wordlist.productDescriptions.get(i), BigDecimal.valueOf(Wordlist.productPrices.get(i)), PriceUnit.PIECE, Location.RIGA, user.getId(), category.getId()));
             }
-            cartService.save(user.getCart());
-
         };
     }
 }

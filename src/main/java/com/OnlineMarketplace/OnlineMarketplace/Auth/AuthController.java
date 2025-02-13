@@ -4,6 +4,8 @@ import com.OnlineMarketplace.OnlineMarketplace.Role.RoleService;
 import com.OnlineMarketplace.OnlineMarketplace.Security.JwtUtils;
 import com.OnlineMarketplace.OnlineMarketplace.User.User;
 import com.OnlineMarketplace.OnlineMarketplace.User.UserService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -14,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,7 +54,7 @@ public class AuthController {
     }
 
     @PostMapping("/resend-verification")
-    public ResponseEntity<?> resendVerification(@RequestParam String email) {
+    public ResponseEntity<?> resendVerification(@RequestParam @NotBlank @Valid String email) {
         boolean sent = userService.resendVerificationEmail(email);
         if (sent) {
             return ResponseEntity.ok(new MessageResponse("Verification email resent successfully!"));
@@ -62,7 +65,7 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequestDTO loginRequest) {
+    public ResponseEntity<?> authenticateUser(@RequestBody @Valid LoginRequestDTO loginRequest) {
         Optional<User> userOptional = userService.findByEmail(loginRequest.getEmail());
 
         if (userOptional.isPresent() && !userOptional.get().isAccountVerified()) {
@@ -78,12 +81,13 @@ public class AuthController {
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
-                .body(new LoginResponseDTO(userDetails.getId(), userDetails.getUsername()));
+                .body(new MessageResponse("success"));
+//                .body(new LoginResponseDTO(userDetails.getId(), userDetails.getUsername()));
     }
 
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser(@RequestBody SignUpRequestDTO requestBody) {
+    public ResponseEntity<?> registerUser(@RequestBody @Valid SignUpRequestDTO requestBody) {
 
 
         if (userService.existsByEmail(requestBody.getEmail())) {
@@ -92,7 +96,7 @@ public class AuthController {
 
         User user = userService.createUser(requestBody);
 
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(new MessageResponse("success"));
     }
 
     @PostMapping("/signout")

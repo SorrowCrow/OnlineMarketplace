@@ -65,7 +65,7 @@ public class UserService {
 
     private void sendVerificationEmail(String email, String token) {
         String subject = "Verify Your Email - Online Marketplace";
-        String verificationUrl = "http://localhost:8080/api/auth/verify?token=" + token;
+        String verificationUrl = "http://localhost:5173/verifyEmail?token=" + token;
 
         String message = "Thank you for registering! Please click the link below to verify your email:\n\n"
                 + verificationUrl + "\n\n"
