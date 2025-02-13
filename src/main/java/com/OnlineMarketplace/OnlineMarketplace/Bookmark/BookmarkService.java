@@ -35,7 +35,7 @@ public class BookmarkService {
                         bookmark.getListing().getListingID(),
                         bookmark.getListing().getTitle(),
                         bookmark.getListing().getDescription(),
-                        bookmark.getListing().getPrice().toString()
+                        bookmark.getListing().getPrice() != null ? bookmark.getListing().getPrice().toString() : "N/A"
                 )).collect(Collectors.toList());
     }
 
@@ -58,7 +58,7 @@ public class BookmarkService {
                 listing.getListingID(),
                 listing.getTitle(),
                 listing.getDescription(),
-                listing.getPrice().toString()
+                listing.getPrice() != null ? listing.getPrice().toString() : "N/A"
         );
     }
 
@@ -72,7 +72,6 @@ public class BookmarkService {
         if (bookmark.isPresent()) {
             Bookmark removedBookmark = bookmark.get();
 
-
             System.out.println("Deleting Bookmark ID: " + removedBookmark.getId());
             System.out.println("User: " + user.getEmail() + " | Listing: " + listing.getTitle());
 
@@ -84,7 +83,7 @@ public class BookmarkService {
                     listing.getListingID(),
                     listing.getTitle(),
                     listing.getDescription(),
-                    listing.getPrice().toString()
+                    listing.getPrice() != null ? listing.getPrice().toString() : "N/A"
             );
         } else {
             System.out.println("Bookmark not found for User ID: " + userId + " and Listing ID: " + listingId);
