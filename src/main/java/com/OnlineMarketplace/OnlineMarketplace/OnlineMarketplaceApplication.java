@@ -1,9 +1,8 @@
 package com.OnlineMarketplace.OnlineMarketplace;
 
-import com.OnlineMarketplace.OnlineMarketplace.Auth.SignUpRequestDTO;
+import com.OnlineMarketplace.OnlineMarketplace.Cart.CartService;
 import com.OnlineMarketplace.OnlineMarketplace.User.User;
 import com.OnlineMarketplace.OnlineMarketplace.User.UserRepository;
-import com.OnlineMarketplace.OnlineMarketplace.User.UserService;
 import com.OnlineMarketplace.OnlineMarketplace.Wordlist.Wordlist;
 import com.OnlineMarketplace.OnlineMarketplace.category.Category;
 import com.OnlineMarketplace.OnlineMarketplace.category.CategoryService;
@@ -26,7 +25,7 @@ public class OnlineMarketplaceApplication {
     }
 
     @Bean
-    public CommandLineRunner loadData(ListingService listingService, CategoryService categoryService, UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public CommandLineRunner loadData(ListingService listingService, CategoryService categoryService, UserRepository userRepository, PasswordEncoder passwordEncoder, CartService cartService) {
         return (args) -> {
             // Populate database
             User user = new User("andrejs@andrejs.com", "Andrejs", "Matvejevs", "andrejs");
@@ -37,12 +36,17 @@ public class OnlineMarketplaceApplication {
             user = userRepository.save(user);
 
             Category category = categoryService.createCategory(new Category().setName("default name").setDescription("default description").setType(CategoryType.ELECTRONICS));
-            log.info(Wordlist.productDescriptions.size()+"");
-            log.info(Wordlist.productTitles.size()+"");
-            log.info(Wordlist.productPrices.size()+"");
+            log.info(Wordlist.productDescriptions.size() + "");
+            log.info(Wordlist.productTitles.size() + "");
+            log.info(Wordlist.productPrices.size() + "");
             for (int i = 0; i < Wordlist.productTitles.size(); i++) {
-                listingService.createListing(new ListingCreateDTO(ListingType.SELL, Wordlist.productTitles.get(i), Wordlist.productDescriptions.get(i), BigDecimal.valueOf(Wordlist.productPrices.get(i)), PriceUnit.PIECE, Location.RIGA, user.getId(), category.getId()));
+                Listing listing = listingService.createListing(new ListingCreateDTO(ListingType.SELL, Wordlist.productTitles.get(i), Wordlist.productDescriptions.get(i), BigDecimal.valueOf(Wordlist.productPrices.get(i)), PriceUnit.PIECE, Location.RIGA, user.getId(), category.getId()));
+                if (i < 5) {
+                    user.getCart().addListing(listing);
+                }
             }
+            cartService.save(user.getCart());
+
         };
     }
 }
