@@ -1,6 +1,13 @@
 package com.OnlineMarketplace.OnlineMarketplace;
 
+import com.OnlineMarketplace.OnlineMarketplace.Cart.Cart;
+import com.OnlineMarketplace.OnlineMarketplace.Cart.CartRepository;
+import com.OnlineMarketplace.OnlineMarketplace.Order.Order;
+import com.OnlineMarketplace.OnlineMarketplace.Order.OrderRepository;
+import com.OnlineMarketplace.OnlineMarketplace.Order.OrderService;
 import com.OnlineMarketplace.OnlineMarketplace.Payment.PaymentService;
+import com.OnlineMarketplace.OnlineMarketplace.User.User;
+import com.OnlineMarketplace.OnlineMarketplace.User.UserRepository;
 import com.OnlineMarketplace.OnlineMarketplace.listing.Listing;
 import com.OnlineMarketplace.OnlineMarketplace.listing.ListingRepository;
 import com.stripe.Stripe;
@@ -21,13 +28,20 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.junit.jupiter.api.BeforeEach;
 import static org.mockito.Mockito.when;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 @SpringBootTest
@@ -37,8 +51,12 @@ public class PaymentServiceTests {
 
     @InjectMocks
     private PaymentService paymentService;
-    
-    //@Value("${stripe.api.key}")
+    @Mock
+    private UserRepository userRepository;
+    @Mock
+    private CartRepository cartRepository;
+    @Mock
+    private OrderService orderService;
 
     @BeforeEach
     public void setup() {
@@ -83,18 +101,48 @@ public class PaymentServiceTests {
     public void testPaymentSuccess() throws StripeException {
         String sessionId = "valid_session_id";
         String userEmail = "user@example.com";
+        String customerId = "customer_123";
+        Long userId = 1L;
 
-        try (MockedStatic<Session> mockedSession = mockStatic(Session.class)) {
+        Map<String, Set<Listing>> sessionListingsMap = new HashMap<>();
+
+        try (MockedStatic<Session> mockedSession = mockStatic(Session.class);
+                MockedStatic<Customer> mockedCustomer = mockStatic(Customer.class)) {
+
             Session mockSession = mock(Session.class);
-            when(mockSession.getPaymentStatus()).thenReturn("paid");
-            when(mockSession.getCustomerEmail()).thenReturn(userEmail);
+            Customer mockCustomer = mock(Customer.class);
 
-            // Correctly mock static method
+            when(mockSession.getPaymentStatus()).thenReturn("paid");
+            when(mockSession.getCustomer()).thenReturn(customerId);
+            when(mockCustomer.getEmail()).thenReturn(userEmail);
+
             mockedSession.when(() -> Session.retrieve(sessionId)).thenReturn(mockSession);
+            mockedCustomer.when(() -> Customer.retrieve(customerId)).thenReturn(mockCustomer);
+
+            User mockUser = new User();
+            mockUser.setId(userId);
+            mockUser.setEmail(userEmail);
+            when(userRepository.findByEmail(userEmail)).thenReturn(Optional.of(mockUser));
+
+            Cart mockCart = mock(Cart.class);
+            when(cartRepository.findById(userId)).thenReturn(Optional.of(mockCart));
+
+            Listing mockListing = mock(Listing.class);
+            when(mockListing.getListingID()).thenReturn(10L);
+            Set<Listing> purchasedItems = new HashSet<>();
+            purchasedItems.add(mockListing);
+            sessionListingsMap.put(sessionId, purchasedItems);
+
+            when(orderService.createOrder(eq(userId), anyLong())).thenReturn(new Order());
 
             String response = paymentService.paymentSuccess(sessionId);
 
-            assertEquals("Payment successful! Email: user@example.com, status: paid", response);
+            assertEquals("Payment successful! Orders have been created for user: " + userEmail, response);
+
+            verify(orderService, times(1)).createOrder(eq(userId), eq(10L));
+
+            verify(mockCart, times(1)).clearListings();
+            verify(cartRepository, times(1)).save(mockCart);
         }
     }
 
