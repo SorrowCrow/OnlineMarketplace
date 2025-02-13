@@ -133,13 +133,13 @@ public class PaymentServiceTests {
             purchasedItems.add(mockListing);
             sessionListingsMap.put(sessionId, purchasedItems);
 
-            when(orderService.createOrder(eq(userId), anyLong())).thenReturn(new Order());
+            when(orderService.createOrder( anyLong())).thenReturn(new Order());
 
             String response = paymentService.paymentSuccess(sessionId);
 
             assertEquals("Payment successful! Orders have been created for user: " + userEmail, response);
 
-            verify(orderService, times(1)).createOrder(eq(userId), eq(10L));
+            verify(orderService, times(1)).createOrder( eq(10L));
 
             verify(mockCart, times(1)).clearListings();
             verify(cartRepository, times(1)).save(mockCart);

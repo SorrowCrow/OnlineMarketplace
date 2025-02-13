@@ -160,7 +160,7 @@ public class PaymentService {
             Cart buyerCart = cartOptional.get();
 
             for (Listing listing : purchasedItems) {
-                orderService.createOrder(buyer.getId(), listing.getListingID());
+                orderService.createOrder( listing.getListingID());
             }
             buyerCart.clearListings();
             cartRepository.save(buyerCart);

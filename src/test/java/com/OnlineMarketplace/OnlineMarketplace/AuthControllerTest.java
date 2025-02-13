@@ -57,7 +57,7 @@ public class AuthControllerTest {
     public void testSignUp() throws Exception {
         // Mock the user service to create a user
         User newUser = new User("newuser@example.com", "John", "Doe", "password123");
-        when(userService.createUser(any())).thenReturn(newUser);
+        when(userService.createUser(any(),false)).thenReturn(newUser);
 
         // Perform the POST request for sign up
         mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/signup")
@@ -66,7 +66,7 @@ public class AuthControllerTest {
                 .andExpect(status().isOk());
 
         // Verify that createUser was called once
-        verify(userService, times(1)).createUser(any());
+        verify(userService, times(1)).createUser(any(), false);
     }
 
 }

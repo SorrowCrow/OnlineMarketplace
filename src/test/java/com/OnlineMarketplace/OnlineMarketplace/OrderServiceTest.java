@@ -72,7 +72,7 @@ class OrderServiceTest {
         when(listingRepository.findById(100L)).thenReturn(Optional.of(listing));
         when(orderRepository.save(any(Order.class))).thenReturn(order);
 
-        Order createdOrder = orderService.createOrder(1L, 100L);
+        Order createdOrder = orderService.createOrder( 100L);
 
         assertNotNull(createdOrder);
         assertEquals("Test Listing", createdOrder.getTitle());
@@ -86,7 +86,7 @@ class OrderServiceTest {
     void testCreateOrder_UserNotFound() {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(RuntimeException.class, () -> orderService.createOrder(1L, 100L));
+        Exception exception = assertThrows(RuntimeException.class, () -> orderService.createOrder( 100L));
         assertEquals("User not found", exception.getMessage());
 
         verify(orderRepository, never()).save(any(Order.class));
@@ -97,7 +97,7 @@ class OrderServiceTest {
         when(userRepository.findById(1L)).thenReturn(Optional.of(buyer));
         when(listingRepository.findById(100L)).thenReturn(Optional.empty());
 
-        Exception exception = assertThrows(RuntimeException.class, () -> orderService.createOrder(1L, 100L));
+        Exception exception = assertThrows(RuntimeException.class, () -> orderService.createOrder( 100L));
         assertEquals("Listing not found", exception.getMessage());
 
         verify(orderRepository, never()).save(any(Order.class));

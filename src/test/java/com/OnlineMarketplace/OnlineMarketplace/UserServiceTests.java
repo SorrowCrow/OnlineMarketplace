@@ -70,7 +70,7 @@ public class UserServiceTests {
         User testUser = new User("test@example.com", "John", "Doe", "encodedPassword");
         when(userRepository.save(any(User.class))).thenReturn(testUser);
 
-        User createdUser = userService.createUser(signUpRequest);
+        User createdUser = userService.createUser(signUpRequest, false);
 
         assertNotNull(createdUser);
         assertEquals("test@example.com", createdUser.getEmail());

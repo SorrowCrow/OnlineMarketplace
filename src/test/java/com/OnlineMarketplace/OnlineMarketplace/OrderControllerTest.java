@@ -11,7 +11,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.Authentication;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -55,18 +58,30 @@ class OrderControllerTest {
         order.setSeller(seller);
         order.setTitle("Test Listing");
         order.setPrice(new BigDecimal("100.00"));
+
+        mockAuthenticatedUser(buyer);
+    }
+
+    private void mockAuthenticatedUser(User user) {
+        Authentication authentication = mock(Authentication.class);
+        when(authentication.getPrincipal()).thenReturn(user);
+
+        SecurityContext securityContext = mock(SecurityContext.class);
+        when(securityContext.getAuthentication()).thenReturn(authentication);
+
+        SecurityContextHolder.setContext(securityContext);
     }
 
     @Test
     void testCreateOrder_Success() throws Exception {
-        when(orderService.createOrder(1L, 100L)).thenReturn(order);
+        when(orderService.createOrder( 100L)).thenReturn(order);
 
-        mockMvc.perform(post("/api/orders/create/100/1"))
+        mockMvc.perform(post("/api/orders/create/100"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(200L))
                 .andExpect(jsonPath("$.title").value("Test Listing"));
 
-        verify(orderService, times(1)).createOrder(1L, 100L);
+        verify(orderService, times(1)).createOrder( 100L);
     }
 
     @Test
