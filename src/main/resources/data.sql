@@ -1,16 +1,6 @@
 INSERT INTO roles(name) SELECT 'ROLE_USER' WHERE NOT EXISTS (SELECT name FROM roles WHERE name = 'ROLE_USER');
 INSERT INTO roles(name) SELECT 'ROLE_ADMIN' WHERE NOT EXISTS (SELECT name FROM roles WHERE name = 'ROLE_ADMIN');
 
-INSERT INTO users (email, name, surname, password, account_verified)
-VALUES
-	('andrejs@ss.com', 'Andrejs', 'Matvejevs', 'am', true),
-	('ruslan@uni.lv', 'Ruslan', 'Dzhubuev', 'rs', false),
-	('anton@work.lt', 'Anton', 'Den', 'ad', true),
-	('lelde@gmail.com', 'Lelde', 'Brosova', 'lb', true),
-	('ieva@gmail.com', 'Ieva', 'Krigere', 'ik', true),
-	('janis@ss.lv', 'janis', 'berzins', 'jb', false),
-	('peusersteris@sludinajumi.lv', 'peteris', 'kalnins', 'pk', true);
-
 INSERT INTO categories (type, name, description)
 VALUES
 	('EMPLOYMENT', 'Vacancy', 'Job offers'),
