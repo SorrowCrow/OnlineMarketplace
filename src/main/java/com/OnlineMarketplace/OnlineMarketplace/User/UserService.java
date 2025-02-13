@@ -5,16 +5,13 @@ import com.OnlineMarketplace.OnlineMarketplace.Role.ERole;
 import com.OnlineMarketplace.OnlineMarketplace.Role.Role;
 import com.OnlineMarketplace.OnlineMarketplace.Role.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-
-
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -112,7 +109,6 @@ public class UserService {
     }
 
 
-
     public Optional<User> getUserById(Long id) {
         return userRepository.findById(id);
     }
@@ -122,10 +118,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User updateUserCart(User user){
+    public User updateUserCart(User user) {
         Optional<User> dbUser = userRepository.findById(user.getId());
 
-        if(dbUser.isPresent()){
+        if (dbUser.isPresent()) {
             User existingUser = dbUser.get();
 
             existingUser.setCart(user.getCart());
@@ -150,8 +146,6 @@ public class UserService {
         return false;
     }
 
-
-
     public User updateUser(Long id, User user) {
         Optional<User> existingUserOptional = userRepository.findById(id);
         if (existingUserOptional.isPresent()) {
@@ -174,6 +168,19 @@ public class UserService {
         }
     }
 
+    public User updateUserDetails(UserDetailsDTO userDetailsDTO, User user) {
+        user.setName(userDetailsDTO.getName());
+        user.setSurname(userDetailsDTO.getSurname());
+        if(!user.getEmail().equals(userDetailsDTO.getEmail())){
+            String token = UUID.randomUUID().toString();
+            user.setVerificationToken(token);
+            user.setVerificationTokenExpiry(LocalDateTime.now().plusHours(24)); // Token valid for 24 hours
+            user.setAccountVerified(false);
+            sendVerificationEmail(userDetailsDTO.getEmail(), token);
+        }
+        user.setEmail(userDetailsDTO.getEmail());
+        return userRepository.save(user);
+    }
 
     public boolean deleteUser(Long id) {
         if (userRepository.existsById(id)) {
