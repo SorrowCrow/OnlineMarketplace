@@ -24,6 +24,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -76,24 +78,14 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
-        http.cors(Customizer.withDefaults()).csrf(csrf -> csrf.disable())
-                .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(auth ->
-                                auth.requestMatchers("/**").permitAll().anyRequest().authenticated()
-//                                .requestMatchers("/api/**").permitAll()
-//                                .anyRequest().authenticated()
-                );
-
-        // fix H2 database console: Refused to display ' in a frame because it set 'X-Frame-Options' to 'deny'
-        http.headers(headers -> headers.frameOptions(frameOption -> frameOption.sameOrigin()));
-
-        http.authenticationProvider(authenticationProvider());
-
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-
-        return http.build();
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .authorizeHttpRequests(auth -> {
+                    auth.requestMatchers("/").permitAll();
+                    auth.anyRequest().authenticated();
+                })
+                .oauth2Login(withDefaults())
+                .formLogin(withDefaults())
+                .build();
     }
 }
