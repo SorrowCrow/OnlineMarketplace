@@ -74,18 +74,6 @@ public class ListingService {
         return listingRepository.searchByDescriptionKeyword(keyword);
     }
 
-/*
-    public List<Listing> searchListings(ListingSearchDTO listingSearchDTO) {
-        return listingRepository.searchListings(listingSearchDTO);
-    }
-*/
-
-/*
-    public List<Listing> findByStartDateBetween(LocalDateTime minStartDate, LocalDateTime maxStartDate) {
-        return listingRepository.findByStartDateBetween(minStartDate, maxStartDate);
-    }
-*/
-
     public Listing createListing(ListingCreateDTO listingCreateDTO) {
         Listing listing = new Listing();
 
@@ -133,11 +121,6 @@ public class ListingService {
         if (listingUpdateDTO.getPriceUnit() != null) {
             listing.setUnit(listingUpdateDTO.getPriceUnit());
         }
-/*
-        if (listingUpdateDTO.getEndDate() != null) {
-            listing.setEndDate(listingUpdateDTO.getEndDate());
-        }
-*/
         if (listingUpdateDTO.getCategoryID() != null) {
             Category newCategory = categoryRepository.findById(listingUpdateDTO.getCategoryID())
                     .orElseThrow(() -> new EntityNotFoundException("Category not found"));
@@ -154,5 +137,4 @@ public class ListingService {
         cartService.deleteListingFromCarts(optionalListing.get());
         listingRepository.deleteById(id);
     }
-
 }
