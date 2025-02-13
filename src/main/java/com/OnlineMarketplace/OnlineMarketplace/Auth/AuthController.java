@@ -44,7 +44,7 @@ public class AuthController {
     PasswordEncoder encoder;
 
     @GetMapping("/verify")
-    public ResponseEntity<?> verifyUser(@RequestParam String token) {
+    public ResponseEntity<?> verifyUser(@RequestParam("token") String token) {
         boolean isVerified = userService.verifyUser(token);
         if (isVerified) {
             return ResponseEntity.ok(new MessageResponse("Email verified successfully! You can now log in."));
@@ -54,7 +54,7 @@ public class AuthController {
     }
 
     @PostMapping("/resend-verification")
-    public ResponseEntity<?> resendVerification(@RequestParam @NotBlank @Valid String email) {
+    public ResponseEntity<?> resendVerification(@RequestParam("email") @NotBlank @Valid String email) {
         boolean sent = userService.resendVerificationEmail(email);
         if (sent) {
             return ResponseEntity.ok(new MessageResponse("Verification email resent successfully!"));
@@ -94,7 +94,7 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already taken!"));
         }
 
-        User user = userService.createUser(requestBody);
+        User user = userService.createUser(requestBody, requestBody.isAdmin());
 
         return ResponseEntity.ok(new MessageResponse("success"));
     }

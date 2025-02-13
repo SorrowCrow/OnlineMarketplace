@@ -41,7 +41,7 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public User createUser(SignUpRequestDTO request) {
+    public User createUser(SignUpRequestDTO request, boolean isAdmin) {
         User user = new User(request.getEmail(), request.getName(), request.getSurname(), request.getPassword());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -53,9 +53,20 @@ public class UserService {
         user.setAccountVerified(false);
 
         Set<Role> roles = new HashSet<>();
-        Role role = roleRepository.findByName(ERole.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("Role not found"));
-        roles.add(role);
+        // Role role = roleRepository.findByName(ERole.ROLE_USER)
+        //         .orElseThrow(() -> new RuntimeException("Role not found"));
+        // roles.add(role);
+        // user.setRoles(roles);
+
+        if (isAdmin) {
+            Role role = roleRepository.findByName(ERole.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+            roles.add(role);
+        } else {
+            Role role = roleRepository.findByName(ERole.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+            roles.add(role);
+        }
         user.setRoles(roles);
 
         sendVerificationEmail(user.getEmail(), token);
