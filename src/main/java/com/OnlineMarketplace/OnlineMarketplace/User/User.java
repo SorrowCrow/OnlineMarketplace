@@ -1,5 +1,6 @@
 package com.OnlineMarketplace.OnlineMarketplace.User;
 
+import com.OnlineMarketplace.OnlineMarketplace.Bookmark.Bookmark;
 import com.OnlineMarketplace.OnlineMarketplace.Cart.Cart;
 import com.OnlineMarketplace.OnlineMarketplace.Role.Role;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -53,6 +54,10 @@ public class User {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn
     private Cart cart = new Cart();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Bookmark> bookmarks = new HashSet<>();
+
 
     public User(String email,String name, String surname, String password) {
         this.email = email;
