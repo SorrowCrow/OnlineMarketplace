@@ -7,6 +7,10 @@ import com.OnlineMarketplace.OnlineMarketplace.listing.listingDTO.ListingUpdateD
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,25 +39,36 @@ public class ListingController {
         }
     }
 
-//ok//
+    //ok//
     @GetMapping
     public List<Listing> getAllListings() {
         return listingService.getAllListings();
     }
 
-//ok//
+    @GetMapping("/page")
+    public Page<Listing> getAllListings(@RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "5") int size,
+                                        @RequestParam(defaultValue = "listingID") String sortBy,
+                                        @RequestParam(defaultValue = "true") boolean ascending) {
+
+        Sort sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        Pageable pageable = PageRequest.of(page, size, sort);
+        return listingService.findAll(pageable);
+    }
+
+    //need to check!//
     @GetMapping("/user/{userID}")
     public List<Listing> getListingsByUserId(@PathVariable Long userID) {
         return listingService.findByUserId(userID);
     }
 
-//ok//
+    //ok//
     @GetMapping("/type")
     public List<Listing> getListingByType(@RequestParam ListingType type) {
         return listingService.findByType(type);
     }
 
-//ok//
+    //ok//
     @GetMapping("/price")
     public List<Listing> getListingByPriceBetween(
             @RequestParam(
@@ -92,7 +107,7 @@ public class ListingController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-//ok//
+//need to check!//
     @PatchMapping("/{id}")
     public ResponseEntity<Listing> updateListing(@PathVariable Long id, @Valid @RequestBody ListingUpdateDTO listingUpdateDTO) {
         try {

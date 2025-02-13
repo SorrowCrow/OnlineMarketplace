@@ -11,6 +11,10 @@ import jakarta.persistence.EntityNotFoundException;
 import com.OnlineMarketplace.OnlineMarketplace.Cart.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,15 +25,22 @@ import java.util.Optional;
 
 @Service
 public class ListingService {
+
     @Autowired
     private ListingRepository listingRepository;
+
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private CategoryRepository categoryRepository;
 
     @Autowired
     private CartService cartService;
+
+    public Page<Listing> findAll(Pageable pageable){
+        return listingRepository.findAll(pageable);
+    }
 
     public List<Listing> getAllListings() {
         return listingRepository.findAll();
@@ -92,16 +103,20 @@ public class ListingService {
         if (existingListing.isEmpty()) {
             throw new EntityNotFoundException("Listing not found");
         }
+
         Listing listing = existingListing.get();
         if (listingUpdateDTO.getType() != null) {
             listing.setType(listingUpdateDTO.getType());
         }
+
         if (listingUpdateDTO.getTitle() != null) {
             listing.setTitle(listingUpdateDTO.getTitle());
         }
+
         if (listingUpdateDTO.getDescription() != null) {
             listing.setDescription(listingUpdateDTO.getDescription());
         }
+
         listing.setPrice(listingUpdateDTO.getPrice());
         if (listingUpdateDTO.getPriceUnit() != null) {
             listing.setUnit(listingUpdateDTO.getPriceUnit());
