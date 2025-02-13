@@ -55,7 +55,7 @@ public class CartController {
      */
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/addToCart/{listingId}")
-    public ResponseEntity<?> addToCart(@PathVariable("listingId") Long listingId, HttpServletRequest request) {
+    public ResponseEntity<?> addToCart(@PathVariable Long listingId, HttpServletRequest request) {
         String username = jwtUtils.getUserNameFromJwtToken(jwtUtils.getJwtFromCookies(request));
 
         Optional<User> optionalUser = userService.findByEmail(username);
@@ -128,7 +128,7 @@ public class CartController {
 
         request.setPassword("string");
 
-        User user = userService.createUser(request);
+        User user = userService.createUser(request, false);
 
         user.getCart().addListing(list1);
 

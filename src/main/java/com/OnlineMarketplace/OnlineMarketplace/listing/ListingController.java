@@ -13,12 +13,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -120,9 +122,19 @@ public class ListingController {
 
     //ok//
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteListing(@PathVariable Long id) {  //204
-        listingService.deleteListing(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteListing(@PathVariable("id") Long id) {  //204
+        //listingService.deleteListing(id);
+        //return ResponseEntity.noContent().build();
+        try {
+            listingService.deleteListing(id);
+            return ResponseEntity.noContent().build(); // 204 No Content
+        } catch (AccessDeniedException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(Map.of("error", "Access Denied", "message", e.getMessage()));
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Not Found", "message", e.getMessage()));
+        }
     }
 
 

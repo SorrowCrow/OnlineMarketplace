@@ -41,7 +41,7 @@ public class UserService {
         return userRepository.existsByEmail(email);
     }
 
-    public User createUser(SignUpRequestDTO request) {
+    public User createUser(SignUpRequestDTO request, boolean isAdmin) {
         User user = new User(request.getEmail(), request.getName(), request.getSurname(), request.getPassword());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -53,9 +53,20 @@ public class UserService {
         user.setAccountVerified(false);
 
         Set<Role> roles = new HashSet<>();
-        Role role = roleRepository.findByName(ERole.ROLE_USER)
-                .orElseThrow(() -> new RuntimeException("Role not found"));
-        roles.add(role);
+        // Role role = roleRepository.findByName(ERole.ROLE_USER)
+        //         .orElseThrow(() -> new RuntimeException("Role not found"));
+        // roles.add(role);
+        // user.setRoles(roles);
+
+        if (isAdmin) {
+            Role role = roleRepository.findByName(ERole.ROLE_ADMIN)
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+            roles.add(role);
+        } else {
+            Role role = roleRepository.findByName(ERole.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Role not found"));
+            roles.add(role);
+        }
         user.setRoles(roles);
 
         sendVerificationEmail(user.getEmail(), token);
@@ -65,7 +76,7 @@ public class UserService {
 
     private void sendVerificationEmail(String email, String token) {
         String subject = "Verify Your Email - Online Marketplace";
-        String verificationUrl = "http://localhost:8080/api/auth/verify?token=" + token;
+        String verificationUrl = "http://localhost:5173/verifyEmail?token=" + token;
 
         String message = "Thank you for registering! Please click the link below to verify your email:\n\n"
                 + verificationUrl + "\n\n"

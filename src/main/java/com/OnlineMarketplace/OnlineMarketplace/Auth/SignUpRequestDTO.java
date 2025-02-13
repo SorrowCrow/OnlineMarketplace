@@ -19,4 +19,6 @@ public class SignUpRequestDTO {
 
     @NotBlank
     private String surname;
+
+    private boolean isAdmin;
 }
