@@ -15,10 +15,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Slf4j
 @RestController
@@ -44,8 +41,17 @@ public class CartController {
      * @return List of all carts.
      */
     @GetMapping
-    public ResponseEntity<List<Cart>> getAllCarts() {
-        return ResponseEntity.ok(cartService.findAll());
+    public ResponseEntity<?> getCart(HttpServletRequest request) {
+        String username = jwtUtils.getUserNameFromJwtToken(jwtUtils.getJwtFromCookies(request));
+
+        Optional<User> optionalUser = userService.findByEmail(username);
+
+        if (optionalUser.isEmpty()) {
+            return ResponseEntity.badRequest().body(new MessageResponse("User does not exist"));
+        }
+
+        User user = optionalUser.get();
+        return ResponseEntity.ok(user.getCart());
     }
 
     /**
@@ -60,13 +66,13 @@ public class CartController {
 
         Optional<User> optionalUser = userService.findByEmail(username);
 
-        if(optionalUser.isEmpty()){
+        if (optionalUser.isEmpty()) {
             return ResponseEntity.badRequest().body(new MessageResponse("User does not exist"));
         }
 
         Optional<Listing> optionalListing = listingService.getListingById(listingId);
 
-        if(optionalListing.isEmpty()){
+        if (optionalListing.isEmpty()) {
             return ResponseEntity.badRequest().body(new MessageResponse("No such listing"));
         }
 
@@ -93,7 +99,7 @@ public class CartController {
 
         Optional<User> optionalUser = userService.findByEmail(username);
 
-        if(optionalUser.isEmpty()){
+        if (optionalUser.isEmpty()) {
             return ResponseEntity.badRequest().body(new MessageResponse("User does not exist"));
         }
 
@@ -109,7 +115,7 @@ public class CartController {
 
         cartService.save(user.getCart());
 
-        return ResponseEntity.ok(cartService.findAll());
+        return ResponseEntity.ok(user.getCart());
     }
 
     /**
@@ -128,7 +134,7 @@ public class CartController {
 
         request.setPassword("string");
 
-        User user = userService.createUser(request, false);
+        User user = userService.createUser(request, request.isAdmin());
 
         user.getCart().addListing(list1);
 
