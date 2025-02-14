@@ -3,6 +3,8 @@ package com.OnlineMarketplace.OnlineMarketplace;
 import com.OnlineMarketplace.OnlineMarketplace.Bookmark.Bookmark;
 import com.OnlineMarketplace.OnlineMarketplace.Bookmark.BookmarkRepository;
 import com.OnlineMarketplace.OnlineMarketplace.Cart.CartService;
+import com.OnlineMarketplace.OnlineMarketplace.Review.Review;
+import com.OnlineMarketplace.OnlineMarketplace.Review.ReviewRepository;
 import com.OnlineMarketplace.OnlineMarketplace.User.User;
 import com.OnlineMarketplace.OnlineMarketplace.User.UserRepository;
 import com.OnlineMarketplace.OnlineMarketplace.Wordlist.Wordlist;
@@ -18,10 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @SpringBootApplication
@@ -31,7 +30,7 @@ public class OnlineMarketplaceApplication {
     }
 
     @Bean
-    public CommandLineRunner loadData(ListingService listingService, CategoryService categoryService, UserRepository userRepository, PasswordEncoder passwordEncoder, CartService cartService, BookmarkRepository bookmarkRepository) {
+    public CommandLineRunner loadData(ListingService listingService, CategoryService categoryService, UserRepository userRepository, PasswordEncoder passwordEncoder, CartService cartService, BookmarkRepository bookmarkRepository, ReviewRepository reviewRepository) {
         return (args) -> {
 
             List<String> names = new ArrayList<>(List.of("Andrejs", "Anton", "Ruslan", "Lelde", "Ieva"));
@@ -114,14 +113,25 @@ public class OnlineMarketplaceApplication {
                         category.getId()
                 ));
             }
+
             List<Listing> listings = listingService.getAllListings();
-            for (int i = 0; i<20; i++) {
+            for (int i = 0; i < 20; i++) {
                 Collections.shuffle(users);
                 Collections.shuffle(listings);
                 User user = users.getFirst();
                 Listing listing = listings.getFirst();
                 Bookmark bookmark = new Bookmark(user, listing);
                 bookmark = bookmarkRepository.save(bookmark);
+            }
+
+            Random random = new Random();
+            for (int i = 0; i < 20; i++) {
+                Collections.shuffle(users);
+                Collections.shuffle(listings);
+                User user = users.getFirst();
+                Listing listing = listings.getFirst();
+                Review review = new Review(user, listing, "", random.nextInt(5)+1);
+                review = reviewRepository.save(review);
             }
         };
     }
