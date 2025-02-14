@@ -4,6 +4,7 @@ import com.OnlineMarketplace.OnlineMarketplace.Auth.SignUpRequestDTO;
 import com.OnlineMarketplace.OnlineMarketplace.Role.ERole;
 import com.OnlineMarketplace.OnlineMarketplace.Role.Role;
 import com.OnlineMarketplace.OnlineMarketplace.Role.RoleRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Slf4j
 @Service
 public class UserService {
 
@@ -45,7 +47,6 @@ public class UserService {
         User user = new User(request.getEmail(), request.getName(), request.getSurname(), request.getPassword());
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
 
         String token = UUID.randomUUID().toString();
         user.setVerificationToken(token);
@@ -93,6 +94,7 @@ public class UserService {
     public boolean verifyUser(String token) {
         Optional<User> userOptional = userRepository.findByVerificationToken(token);
         if (userOptional.isPresent()) {
+            log.info("Present");
             User user = userOptional.get();
             if (user.getVerificationTokenExpiry().isBefore(LocalDateTime.now())) {
                 return false; // Token expired
@@ -103,6 +105,8 @@ public class UserService {
             userRepository.save(user);
             return true;
         }
+
+        log.info("Not Present");
         return false;
     }
 

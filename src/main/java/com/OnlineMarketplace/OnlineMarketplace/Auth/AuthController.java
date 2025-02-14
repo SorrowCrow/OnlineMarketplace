@@ -44,7 +44,7 @@ public class AuthController {
     PasswordEncoder encoder;
 
     @GetMapping("/verify")
-    public ResponseEntity<?> verifyUser(@RequestParam("token") String token) {
+    public ResponseEntity<?> verifyUser(@RequestParam("token") @NotBlank @Valid String token) {
         boolean isVerified = userService.verifyUser(token);
         if (isVerified) {
             return ResponseEntity.ok(new MessageResponse("Email verified successfully! You can now log in."));
