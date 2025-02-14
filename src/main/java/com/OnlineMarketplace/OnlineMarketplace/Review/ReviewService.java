@@ -1,5 +1,7 @@
 package com.OnlineMarketplace.OnlineMarketplace.Review;
 
+import com.OnlineMarketplace.OnlineMarketplace.User.User;
+import com.OnlineMarketplace.OnlineMarketplace.listing.Listing;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,14 @@ public class ReviewService {
 
     public Optional<Review> getReviewById(Long id) {
         return reviewRepository.findById(id);
+    }
+
+    public List<Review> getReviewsByUser(User user) {
+        return reviewRepository.findReviewsByUser(user);
+    }
+
+    public List<Review> getReviewsByListing(Listing listing) {
+        return reviewRepository.findReviewsByListing(listing);
     }
 
     public void deleteReview(Long id) {
