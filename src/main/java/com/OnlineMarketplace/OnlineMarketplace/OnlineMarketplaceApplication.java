@@ -1,5 +1,7 @@
 package com.OnlineMarketplace.OnlineMarketplace;
 
+import com.OnlineMarketplace.OnlineMarketplace.Bookmark.Bookmark;
+import com.OnlineMarketplace.OnlineMarketplace.Bookmark.BookmarkRepository;
 import com.OnlineMarketplace.OnlineMarketplace.Cart.CartService;
 import com.OnlineMarketplace.OnlineMarketplace.User.User;
 import com.OnlineMarketplace.OnlineMarketplace.User.UserRepository;
@@ -29,7 +31,7 @@ public class OnlineMarketplaceApplication {
     }
 
     @Bean
-    public CommandLineRunner loadData(ListingService listingService, CategoryService categoryService, UserRepository userRepository, PasswordEncoder passwordEncoder, CartService cartService) {
+    public CommandLineRunner loadData(ListingService listingService, CategoryService categoryService, UserRepository userRepository, PasswordEncoder passwordEncoder, CartService cartService, BookmarkRepository bookmarkRepository) {
         return (args) -> {
 
             List<String> names = new ArrayList<>(List.of("Andrejs", "Anton", "Ruslan", "Lelde", "Ieva"));
@@ -111,6 +113,15 @@ public class OnlineMarketplaceApplication {
                         user.getId(),
                         category.getId()
                 ));
+            }
+            List<Listing> listings = listingService.getAllListings();
+            for (int i = 0; i<20; i++) {
+                Collections.shuffle(users);
+                Collections.shuffle(listings);
+                User user = users.getFirst();
+                Listing listing = listings.getFirst();
+                Bookmark bookmark = new Bookmark(user, listing);
+                bookmark = bookmarkRepository.save(bookmark);
             }
         };
     }
