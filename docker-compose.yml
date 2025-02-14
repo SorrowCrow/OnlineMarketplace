@@ -1,0 +1,11 @@
+services:
+  api_service:
+    image: onlinemarketplace:latest
+    build: .
+    environment:
+      spring.datasource.url: jdbc:mySQL://onlinemarketplac.cxayog2ae55r.eu-north-1.rds.amazonaws.com:3306/onlinemarketplace
+      spring.datasource.username: admin
+      spring.datasource.password: SuperDuperAmazonPassword12
+#      ALLOWED_ORIGIN: https://frontend-online-marketplace.vercel.app
+    ports:
+      - 8080:8080

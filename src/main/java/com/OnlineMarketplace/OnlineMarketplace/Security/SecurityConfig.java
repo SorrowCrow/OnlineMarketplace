@@ -35,9 +35,6 @@ public class SecurityConfig {
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
-    @Value("${ALLOWED_ORIGIN}")
-    private String allowedOrigins;
-
     @Bean
     public JwtAuthenticationFilter authenticationJwtTokenFilter() {
         return new JwtAuthenticationFilter();
@@ -67,7 +64,7 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
-        configuration.setAllowedOrigins(List.of(allowedOrigins));
+        configuration.setAllowedOrigins(List.of("https://frontend-online-marketplace.vercel.app/", "http://localhost:5173"));
         configuration.setAllowCredentials(true);
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT", "OPTIONS", "PATCH", "DELETE"));
         configuration.setMaxAge(3600L);
