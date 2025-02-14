@@ -1,0 +1,95 @@
+Perfomance tests for sign up 
+
+10 users
+error 0%
+1739531655344,11721,HTTP Request,200,,signup10 1-6,text,true,,459,315,10,10,http://Localhost:8080/api/auth/signup,11720,0,1
+1739531655639,11853,HTTP Request,200,,signup10 1-9,text,true,,459,315,9,9,http://Localhost:8080/api/auth/signup,11853,0,2
+1739531654940,12770,HTTP Request,200,,signup10 1-2,text,true,,459,315,8,8,http://Localhost:8080/api/auth/signup,12770,0,1
+1739531655142,13129,HTTP Request,200,,signup10 1-4,text,true,,459,315,7,7,http://Localhost:8080/api/auth/signup,13128,0,1
+1739531654835,14208,HTTP Request,200,,signup10 1-1,text,true,,459,315,6,6,http://Localhost:8080/api/auth/signup,14208,0,2
+1739531655250,14196,HTTP Request,200,,signup10 1-5,text,true,,459,315,5,5,http://Localhost:8080/api/auth/signup,14196,0,1
+1739531655437,14280,HTTP Request,200,,signup10 1-7,text,true,,459,315,4,4,http://Localhost:8080/api/auth/signup,14279,0,1
+1739531655546,14783,HTTP Request,200,,signup10 1-8,text,true,,459,315,3,3,http://Localhost:8080/api/auth/signup,14782,0,1
+1739531655737,16247,HTTP Request,200,,signup10 1-10,text,true,,459,315,2,2,http://Localhost:8080/api/auth/signup,16246,0,0
+1739531655049,17441,HTTP Request,200,,signup10 1-3,text,true,,459,315,1,1,http://Localhost:8080/api/auth/signup,17441,0,1
+
+25 user
+error 0%
+1739531683516,10928,HTTP Request,200,,signup25 1-1,text,true,,459,315,25,25,http://Localhost:8080/api/auth/signup,10927,0,1
+1739531683836,10831,HTTP Request,200,,signup25 1-9,text,true,,459,315,24,24,http://Localhost:8080/api/auth/signup,10831,0,1
+1739531683876,11292,HTTP Request,200,,signup25 1-10,text,true,,459,315,23,23,http://Localhost:8080/api/auth/signup,11292,0,1
+1739531683556,12452,HTTP Request,200,,signup25 1-2,text,true,,459,315,22,22,http://Localhost:8080/api/auth/signup,12451,0,0
+1739531683756,12790,HTTP Request,200,,signup25 1-7,text,true,,459,315,21,21,http://Localhost:8080/api/auth/signup,12789,0,1
+1739531683718,13111,HTTP Request,200,,signup25 1-6,text,true,,459,315,20,20,http://Localhost:8080/api/auth/signup,13110,0,1
+1739531683638,13632,HTTP Request,200,,signup25 1-4,text,true,,459,315,19,19,http://Localhost:8080/api/auth/signup,13630,0,1
+1739531683595,14127,HTTP Request,200,,signup25 1-3,text,true,,459,315,18,18,http://Localhost:8080/api/auth/signup,14126,0,1
+1739531683676,14962,HTTP Request,200,,signup25 1-5,text,true,,459,315,17,17,http://Localhost:8080/api/auth/signup,14962,0,1
+1739531683796,15270,HTTP Request,200,,signup25 1-8,text,true,,459,315,16,16,http://Localhost:8080/api/auth/signup,15269,0,1
+1739531683916,21192,HTTP Request,200,,signup25 1-11,text,true,,459,315,15,15,http://Localhost:8080/api/auth/signup,21191,0,0
+1739531683955,22344,HTTP Request,200,,signup25 1-12,text,true,,459,315,14,14,http://Localhost:8080/api/auth/signup,22344,0,1
+1739531684318,26464,HTTP Request,200,,signup25 1-21,text,true,,459,315,13,13,http://Localhost:8080/api/auth/signup,26463,0,2
+1739531684118,27571,HTTP Request,200,,signup25 1-16,text,true,,459,315,12,12,http://Localhost:8080/api/auth/signup,27570,0,1
+1739531684158,28121,HTTP Request,200,,signup25 1-17,text,true,,459,315,11,11,http://Localhost:8080/api/auth/signup,28121,0,1
+
+50 users
+error 44%
+1739531683996,28945,HTTP Request,200,,signup25 1-13,text,true,,459,315,10,10,http://Localhost:8080/api/auth/signup,28945,0,1
+1739531684036,29514,HTTP Request,200,,signup25 1-14,text,true,,459,315,9,9,http://Localhost:8080/api/auth/signup,29514,0,1
+1739531684198,29874,HTTP Request,200,,signup25 1-18,text,true,,459,315,8,8,http://Localhost:8080/api/auth/signup,29874,0,1
+1739531684076,30315,HTTP Request,200,,signup25 1-15,text,true,,459,315,7,7,http://Localhost:8080/api/auth/signup,30314,0,1
+1739531684239,31780,HTTP Request,200,,signup25 1-19,text,true,,459,315,6,6,http://Localhost:8080/api/auth/signup,31780,0,1
+1739531684277,31999,HTTP Request,200,,signup25 1-20,text,true,,459,315,5,5,http://Localhost:8080/api/auth/signup,31999,0,1
+1739531684396,32407,HTTP Request,200,,signup25 1-23,text,true,,459,315,4,4,http://Localhost:8080/api/auth/signup,32407,0,2
+1739531684358,33872,HTTP Request,200,,signup25 1-22,text,true,,459,315,3,3,http://Localhost:8080/api/auth/signup,33871,0,1
+1739531684436,38403,HTTP Request,200,,signup25 1-24,text,true,,459,315,2,2,http://Localhost:8080/api/auth/signup,38403,0,1
+1739531684477,45092,HTTP Request,200,,signup25 1-25,text,true,,459,315,1,1,http://Localhost:8080/api/auth/signup,45091,0,2
+1739531752703,10586,HTTP Request,200,,signup50 1-1,text,true,,459,315,50,50,http://Localhost:8080/api/auth/signup,10586,0,1
+1739531752782,11702,HTTP Request,200,,signup50 1-5,text,true,,459,315,49,49,http://Localhost:8080/api/auth/signup,11701,0,1
+1739531752842,11956,HTTP Request,200,,signup50 1-8,text,true,,459,315,48,48,http://Localhost:8080/api/auth/signup,11955,0,1
+1739531752803,12282,HTTP Request,200,,signup50 1-6,text,true,,459,315,47,47,http://Localhost:8080/api/auth/signup,12281,0,1
+1739531752762,12574,HTTP Request,200,,signup50 1-4,text,true,,459,315,46,46,http://Localhost:8080/api/auth/signup,12573,0,1
+1739531752742,13029,HTTP Request,200,,signup50 1-3,text,true,,459,315,45,45,http://Localhost:8080/api/auth/signup,13028,0,1
+1739531752722,13898,HTTP Request,200,,signup50 1-2,text,true,,459,315,44,44,http://Localhost:8080/api/auth/signup,13897,0,1
+1739531752862,14213,HTTP Request,200,,signup50 1-9,text,true,,459,315,43,43,http://Localhost:8080/api/auth/signup,14212,0,1
+1739531752823,14524,HTTP Request,200,,signup50 1-7,text,true,,459,315,42,42,http://Localhost:8080/api/auth/signup,14524,0,0
+1739531752882,14890,HTTP Request,200,,signup50 1-10,text,true,,459,315,41,41,http://Localhost:8080/api/auth/signup,14889,0,1
+1739531752902,23229,HTTP Request,200,,signup50 1-11,text,true,,459,315,40,40,http://Localhost:8080/api/auth/signup,23229,0,1
+1739531752922,27336,HTTP Request,200,,signup50 1-12,text,true,,459,315,39,39,http://Localhost:8080/api/auth/signup,27335,0,1
+1739531752944,27732,HTTP Request,200,,signup50 1-13,text,true,,459,315,38,38,http://Localhost:8080/api/auth/signup,27731,0,0
+1739531752963,27974,HTTP Request,200,,signup50 1-14,text,true,,459,315,37,37,http://Localhost:8080/api/auth/signup,27973,0,1
+1739531752983,28541,HTTP Request,200,,signup50 1-15,text,true,,459,315,36,36,http://Localhost:8080/api/auth/signup,28540,0,1
+1739531753024,29492,HTTP Request,200,,signup50 1-17,text,true,,459,315,35,35,http://Localhost:8080/api/auth/signup,29491,0,1
+1739531753083,29895,HTTP Request,200,,signup50 1-20,text,true,,459,315,34,34,http://Localhost:8080/api/auth/signup,29895,0,2
+1739531753263,30056,HTTP Request,500,,signup50 1-29,text,false,,525,315,33,33,http://Localhost:8080/api/auth/signup,30056,0,1
+1739531753303,30016,HTTP Request,500,,signup50 1-31,text,false,,525,315,33,33,http://Localhost:8080/api/auth/signup,30016,0,1
+1739531753283,30037,HTTP Request,500,,signup50 1-30,text,false,,525,315,31,31,http://Localhost:8080/api/auth/signup,30036,0,1
+1739531753243,30077,HTTP Request,500,,signup50 1-28,text,false,,525,315,30,30,http://Localhost:8080/api/auth/signup,30076,0,1
+1739531753004,30343,HTTP Request,200,,signup50 1-16,text,true,,459,315,29,29,http://Localhost:8080/api/auth/signup,30342,0,1
+1739531753323,30028,HTTP Request,500,,signup50 1-32,text,false,,525,315,28,28,http://Localhost:8080/api/auth/signup,30028,0,1
+1739531753362,30015,HTTP Request,500,,signup50 1-34,text,false,,525,315,27,27,http://Localhost:8080/api/auth/signup,30015,0,1
+1739531753383,30025,HTTP Request,500,,signup50 1-35,text,false,,525,315,26,26,http://Localhost:8080/api/auth/signup,30025,0,1
+1739531753402,30021,HTTP Request,500,,signup50 1-36,text,false,,525,315,25,25,http://Localhost:8080/api/auth/signup,30020,0,2
+1739531753423,30044,HTTP Request,500,,signup50 1-37,text,false,,525,315,24,24,http://Localhost:8080/api/auth/signup,30042,0,3
+1739531753443,30039,HTTP Request,500,,signup50 1-38,text,false,,525,315,23,23,http://Localhost:8080/api/auth/signup,30039,0,1
+1739531753464,30028,HTTP Request,500,,signup50 1-39,text,false,,525,315,22,22,http://Localhost:8080/api/auth/signup,30028,0,0
+1739531753484,30020,HTTP Request,500,,signup50 1-40,text,false,,525,315,21,21,http://Localhost:8080/api/auth/signup,30020,0,1
+1739531753504,30037,HTTP Request,500,,signup50 1-41,text,false,,525,315,20,20,http://Localhost:8080/api/auth/signup,30037,0,0
+1739531753525,30030,HTTP Request,500,,signup50 1-42,text,false,,525,315,19,19,http://Localhost:8080/api/auth/signup,30029,0,1
+1739531753545,30022,HTTP Request,500,,signup50 1-43,text,false,,525,315,18,18,http://Localhost:8080/api/auth/signup,30021,0,2
+1739531753563,30022,HTTP Request,500,,signup50 1-44,text,false,,525,315,17,17,http://Localhost:8080/api/auth/signup,30021,0,2
+1739531753583,30034,HTTP Request,500,,signup50 1-45,text,false,,525,315,16,16,http://Localhost:8080/api/auth/signup,30033,0,2
+1739531753603,30034,HTTP Request,500,,signup50 1-46,text,false,,525,315,15,15,http://Localhost:8080/api/auth/signup,30033,0,1
+1739531753624,30022,HTTP Request,500,,signup50 1-47,text,false,,525,315,14,14,http://Localhost:8080/api/auth/signup,30022,0,0
+1739531753642,30022,HTTP Request,500,,signup50 1-48,text,false,,525,315,13,13,http://Localhost:8080/api/auth/signup,30022,0,1
+1739531753663,30033,HTTP Request,500,,signup50 1-49,text,false,,525,315,12,12,http://Localhost:8080/api/auth/signup,30032,0,1
+1739531753683,30028,HTTP Request,500,,signup50 1-50,text,false,,525,315,11,11,http://Localhost:8080/api/auth/signup,30027,0,1
+1739531753064,30710,HTTP Request,200,,signup50 1-19,text,true,,459,315,10,10,http://Localhost:8080/api/auth/signup,30709,0,1
+1739531753044,32324,HTTP Request,200,,signup50 1-18,text,true,,459,315,9,9,http://Localhost:8080/api/auth/signup,32324,0,2
+1739531753123,33803,HTTP Request,200,,signup50 1-22,text,true,,459,315,8,8,http://Localhost:8080/api/auth/signup,33803,0,0
+1739531753104,37688,HTTP Request,200,,signup50 1-21,text,true,,459,315,7,7,http://Localhost:8080/api/auth/signup,37688,0,1
+1739531753164,39059,HTTP Request,200,,signup50 1-24,text,true,,459,315,6,6,http://Localhost:8080/api/auth/signup,39058,0,1
+1739531753144,39722,HTTP Request,200,,signup50 1-23,text,true,,459,315,5,5,http://Localhost:8080/api/auth/signup,39721,0,1
+1739531753184,43215,HTTP Request,200,,signup50 1-25,text,true,,459,315,4,4,http://Localhost:8080/api/auth/signup,43215,0,0
+1739531753204,45042,HTTP Request,200,,signup50 1-26,text,true,,459,315,3,3,http://Localhost:8080/api/auth/signup,45041,0,0
+1739531753344,45672,HTTP Request,200,,signup50 1-33,text,true,,459,315,2,2,http://Localhost:8080/api/auth/signup,45671,0,1
+1739531753223,46435,HTTP Request,200,,signup50 1-27,text,true,,459,315,1,1,http://Localhost:8080/api/auth/signup,46435,0,1

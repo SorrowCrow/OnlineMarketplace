@@ -249,7 +249,7 @@ EXAMPLE REQUEST:
 EXAMPLE RESPONSE: 
 ```json
 {
-    Payment successful! Orders have been created for user: example@example.com
+    "message": "Payment successful! Orders have been created for user: example@example.com"
 }
 ```
 
@@ -258,7 +258,7 @@ EXAMPLE RESPONSE:
 EXAMPLE RESPONSE: 
 ```json
 {
-    Payment cancelled. Try again.
+    "message":  "Payment cancelled. Try again."
 }
 ```
 
