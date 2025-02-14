@@ -1,8 +1,8 @@
 package com.OnlineMarketplace.OnlineMarketplace.listing;
 
 public enum Location {
-    RIGA,
-    VILNIUS,
+    RIGA, DAUGAVPILS, LIEPAJA, JELGAVA, JURMALA, VENTSPILS, REZEKNE, VALMIERA, OGRE, CESIS,
+    VILNIUS, KAUNAS, KLAIPEDA, SIAULIAI, PANEVEZYS, ALYTUS, MARIJAMPOLE, MAZEIKIAI, JONAVA, UTENA,
     ALL,
     OTHER;
 }
